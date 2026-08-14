@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="Mille.Api/Mille.Api.csproj" />
+  <Project Path="Mille.Application/Mille.Application.csproj" />
+  <Project Path="Mille.Domain/Mille.Domain.csproj" />
+  <Project Path="Mille.Infrastructure/Mille.Infrastructure.csproj" />
 </Solution>
