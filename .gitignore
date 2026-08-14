@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/backend/Mille/Mille.Api/appsettings.json
