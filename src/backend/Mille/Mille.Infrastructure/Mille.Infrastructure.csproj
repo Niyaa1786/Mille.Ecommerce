@@ -26,4 +26,9 @@
     <ProjectReference Include="..\Mille.Application\Mille.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Data\" />
+    <Folder Include="Persistence\Repositories\" />
+  </ItemGroup>
+
 </Project>
