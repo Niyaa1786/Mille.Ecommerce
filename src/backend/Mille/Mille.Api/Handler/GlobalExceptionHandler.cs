@@ -38,6 +38,11 @@ namespace Mille.Api.Handler
                 statusCode = (int)HttpStatusCode.Unauthorized;
                 message = "Unauthorized access";
             }
+            else if(exception is Exception ex)
+            {
+                statusCode = (int)HttpStatusCode.InternalServerError;
+                message = ex.Message;
+            }
 
             var response = ApiResponse<object>.Failure(errors!, message);
 
