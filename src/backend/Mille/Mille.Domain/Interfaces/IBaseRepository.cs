@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Text;
+
+namespace Mille.Domain.Interfaces
+{
+    public interface IBaseRepository<T, TId> where T : class
+    {
+        Task<IEnumerable<T>> GetAllAsync(CancellationToken ct);
+        Task<T?> GetByIdAsync(TId id, CancellationToken ct);
+
+        void Add(T entity, CancellationToken cancellationToken = default);
+        void Update(T entity);
+        void Remove(T entity);
+
+    }
+}
