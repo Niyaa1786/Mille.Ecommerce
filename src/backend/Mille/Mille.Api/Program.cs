@@ -1,3 +1,4 @@
+using Mille.Api.Handler;
 using Mille.Application;
 using Mille.Infrastructure;
 using Scalar.AspNetCore;
@@ -25,14 +26,19 @@ try
 
     builder.Services.AddSerilog();
 
+    builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+    builder.Services.AddProblemDetails();
+
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
 
-    
+
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
     builder.Services.AddOpenApi();
 
     var app = builder.Build();
+
+    app.UseExceptionHandler();
 
     app.UseSerilogRequestLogging();
 
