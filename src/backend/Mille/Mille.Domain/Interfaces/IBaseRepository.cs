@@ -10,7 +10,7 @@ namespace Mille.Domain.Interfaces
         Task<IEnumerable<T>> GetAllAsync(CancellationToken ct);
         Task<T?> GetByIdAsync(TId id, CancellationToken ct);
 
-        void Add(T entity, CancellationToken cancellationToken = default);
+        void Add(T entity);
         void Update(T entity);
         void Remove(T entity);
 
