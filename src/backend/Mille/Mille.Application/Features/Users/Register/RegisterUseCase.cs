@@ -24,7 +24,7 @@ namespace Mille.Application.Features.Users.Register
 
         public async Task<RegisterResponse> ExecuteAsync(RegisterRequest request, CancellationToken ct = default)
         {
-            await _validator.ValidateAndThrowAsync(request, ct);
+            _validator.ValidateAndThrow(request);
 
             var existingUser = await _unitOfWork.Users.GetByEmailAsync(request.Email, ct);
             if (existingUser != null)

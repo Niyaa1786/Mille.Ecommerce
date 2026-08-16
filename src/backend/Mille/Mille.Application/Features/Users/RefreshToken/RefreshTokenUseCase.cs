@@ -23,7 +23,7 @@ namespace Mille.Application.Features.Users.RefreshToken
 
         public async Task<RefreshTokenResponse> ExecuteAsync(RefreshTokenRequest request, CancellationToken ct = default)
         {
-            await _validator.ValidateAndThrowAsync(request, ct);
+            _validator.ValidateAndThrow(request);
 
             var user = await _unitOfWork.Users.GetByRefreshTokenAsync(request.RefreshToken, ct);
             if (user is null)

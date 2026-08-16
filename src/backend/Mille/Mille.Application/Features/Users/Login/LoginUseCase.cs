@@ -27,7 +27,7 @@ namespace Mille.Application.Features.Users.Login
 
         public async Task<LoginResponse> ExecuteAsync(LoginRequest request, CancellationToken ct = default)
         {
-            await _validator.ValidateAndThrowAsync(request, ct);
+            _validator.ValidateAndThrow(request);
 
             var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, ct);
 
