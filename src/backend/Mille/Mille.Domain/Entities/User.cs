@@ -1,4 +1,5 @@
-﻿using Mille.Domain.Exceptions;
+﻿using Mille.Domain.Enums;
+using Mille.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ namespace Mille.Domain.Entities
     public class User
     {
         public Guid Id { get; private set; }
-        public int RoleId { get; private set; }
+        public UserRole Role { get; private set; }
         public string FullName { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
@@ -22,19 +23,18 @@ namespace Mille.Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
-        public Role Role { get; private set; }
         private readonly List<Address> _addresses = new();
         public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
         private User() { }
 
-        public User(string fullName, string email, string passwordHash, int roleId)
+        public User(string fullName, string email, string passwordHash, UserRole role = UserRole.Customer)
         {
             Id = Guid.NewGuid();
             FullName = fullName;
             Email = email;
             PasswordHash = passwordHash;
-            RoleId = roleId;
+            Role = role;
             IsDeleted = false;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
