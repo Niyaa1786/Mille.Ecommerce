@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Mille.Application.Common.DTOs;
 using Mille.Application.Common.Interfaces;
 using Mille.Domain.Entities;
+using Mille.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -50,7 +51,7 @@ namespace Mille.Infrastructure.Security
                 [ClaimTypes.NameIdentifier] = user.Id.ToString(),
                 [ClaimTypes.Name] = user.FullName,
                 [ClaimTypes.Email] = user.Email,
-                [ClaimTypes.Role] = user.Role.Name ?? "Customer"
+                [ClaimTypes.Role] = user.Role.ToString(),
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
