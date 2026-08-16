@@ -6,7 +6,6 @@ namespace Mille.Application.Common.Interfaces
 {
     public interface IUseCase<TRequest, TResponse>
     {
-        Task<TResponse> ExecuteAsync(TRequest request, CancellationToken cancellationToken = default);
+        Task<TResponse> ExecuteAsync(TRequest request, CancellationToken ct = default);
     }
-
 }
