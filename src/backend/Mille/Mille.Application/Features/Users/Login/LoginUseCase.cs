@@ -34,7 +34,7 @@ namespace Mille.Application.Features.Users.Login
             if (user is null)
                 throw new AppValidationException(nameof(request.Email), "Invalid email or password.");
 
-            if(_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
+            if(!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
                 throw new AppValidationException(nameof(request.Password), "Invalid email or password.");
 
             var tokenResult = _tokenGenerator.GenerateToken(user);
