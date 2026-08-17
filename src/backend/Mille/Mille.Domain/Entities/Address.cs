@@ -7,7 +7,7 @@ namespace Mille.Domain.Entities
     public class Address
     {
         public int Id { get; private set; }
-        public int UserId { get; private set; }
+        public Guid UserId { get; private set; }
         public string ReceiverName { get; private set; }
         public string ReceiverPhone { get; private set; }
         public string AddressLine { get; private set; }
