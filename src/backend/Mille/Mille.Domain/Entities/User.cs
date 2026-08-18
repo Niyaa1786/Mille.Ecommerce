@@ -40,13 +40,19 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void UpdateProfile(string fullName, string? phone, string? avatarUrl)
+        public void UpdateProfile(string fullName, string? phone)
         {
             FullName = fullName;
             Phone = phone;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateAvatar(string avatarUrl)
+        {
             AvatarUrl = avatarUrl;
             UpdatedAt = DateTime.UtcNow;
         }
+
 
         public void ChangePassword(string passwordHash)
         {
