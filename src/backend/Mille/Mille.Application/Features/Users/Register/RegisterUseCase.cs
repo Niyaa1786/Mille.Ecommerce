@@ -35,7 +35,7 @@ namespace Mille.Application.Features.Users.Register
             var user = new User(request.FullName, request.Email, passwordHash, UserRole.Customer);
 
             if (!string.IsNullOrEmpty(request.Phone))
-                user.UpdateProfile(request.FullName, request.Phone, null);
+                user.UpdateProfile(request.FullName, request.Phone);
 
             _unitOfWork.Users.Add(user);
             await _unitOfWork.SaveChangesAsync(ct);
