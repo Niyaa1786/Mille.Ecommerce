@@ -38,7 +38,11 @@ namespace Mille.Infrastructure.Services
                 Folder = folder,
                 PublicId = publicId,
                 Overwrite = overwrite,
-                Invalidate = overwrite
+                Invalidate = overwrite,
+                Transformation = new Transformation()
+                    .Width(1200).Crop("limit")
+                    .Quality("auto:good")
+                    .FetchFormat("auto")
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams, ct);
