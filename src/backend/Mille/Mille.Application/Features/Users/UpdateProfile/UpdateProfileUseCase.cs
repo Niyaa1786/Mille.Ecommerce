@@ -27,7 +27,7 @@ namespace Mille.Application.Features.Users.UpdateProfile
             if (user == null)
                 throw new NotFoundException("User not found.");
 
-            user.UpdateProfile(request.FullName, request.Phone, request.AvatarUrl);
+            user.UpdateProfile(request.FullName, request.Phone);
             await _unitOfWork.SaveChangesAsync(ct);
 
             return new UpdateProfileResponse

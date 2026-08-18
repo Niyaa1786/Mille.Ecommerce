@@ -16,10 +16,6 @@ namespace Mille.Application.Features.Users.UpdateProfile
             RuleFor(x => x.Phone)
                 .MaximumLength(20).WithMessage("Phone must not exceed 20 characters.")
                 .When(x => !string.IsNullOrEmpty(x.Phone));
-
-            RuleFor(x => x.AvatarUrl)
-                .MaximumLength(500).WithMessage("Avatar URL must not exceed 500 characters.")
-                .When(x => !string.IsNullOrEmpty(x.AvatarUrl));
         }
     }
 }
