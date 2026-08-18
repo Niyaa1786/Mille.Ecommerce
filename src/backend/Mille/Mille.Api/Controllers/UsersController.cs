@@ -11,6 +11,7 @@ using Mille.Application.Features.Users.RefreshToken;
 using Mille.Application.Features.Users.Register;
 using Mille.Application.Features.Users.UpdateAddress;
 using Mille.Application.Features.Users.UpdateProfile;
+using Mille.Application.Features.Users.UploadAvatar;
 using System.Security.Claims;
 
 namespace Mille.Api.Controllers
@@ -29,6 +30,7 @@ namespace Mille.Api.Controllers
         private readonly AddAddressUseCase _addAddressUseCase;
         private readonly UpdateAddressUseCase _updateAddressUseCase;
         private readonly DeleteAddressUseCase _deleteAddressUseCase;
+        private readonly UploadAvatarUseCase _uploadAvatarUseCase;
 
         public UsersController(
             RegisterUseCase registerUseCase,
@@ -39,7 +41,8 @@ namespace Mille.Api.Controllers
             UpdateProfileUseCase updateProfileUseCase,
             AddAddressUseCase addAddressUseCase,
             UpdateAddressUseCase updateAddressUseCase,
-            DeleteAddressUseCase deleteAddressUseCase)
+            DeleteAddressUseCase deleteAddressUseCase,
+            UploadAvatarUseCase uploadAvatarUseCase)
         {
             _registerUseCase = registerUseCase;
             _loginUseCase = loginUseCase;
@@ -50,6 +53,7 @@ namespace Mille.Api.Controllers
             _addAddressUseCase = addAddressUseCase;
             _updateAddressUseCase = updateAddressUseCase;
             _deleteAddressUseCase = deleteAddressUseCase;
+            _uploadAvatarUseCase = uploadAvatarUseCase;
         }
         #endregion
         [HttpPost("register")]
@@ -110,6 +114,23 @@ namespace Mille.Api.Controllers
             request.UserId = GetUserId();
             var result = await _updateProfileUseCase.ExecuteAsync(request, ct);
             var res = ApiResponse<UpdateProfileResponse>.Success(result, "Profile updated.");
+            return Ok(res);
+        }
+
+        [Authorize]
+        [HttpPost("avatar")]
+        public async Task<IActionResult> UploadAvatar(IFormFile file, CancellationToken ct)
+        {
+            var userId = GetUserId();
+            using var stream = file.OpenReadStream();
+            var request = new UploadAvatarRequest
+            {
+                UserId = userId,
+                FileStream = stream,
+                FileName = file.FileName
+            };
+            var result = await _uploadAvatarUseCase.ExecuteAsync(request, ct);
+            var res = ApiResponse<UploadAvatarResponse>.Success(result, "Avatar uploaded.");
             return Ok(res);
         }
 
