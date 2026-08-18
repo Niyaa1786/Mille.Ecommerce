@@ -1,6 +1,7 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Configuration;
+using Mille.Application.Common.DTOs;
 using Mille.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Mille.Infrastructure.Services
 
         }
 
-        public async Task<string> UploadFileAsync(Stream fileStream, string fileName, string folder, string? publicId = null, bool overwrite = false, CancellationToken ct = default)
+        public async Task<FileUploadResult> UploadFileAsync(Stream fileStream, string fileName, string folder, string? publicId = null, bool overwrite = false, CancellationToken ct = default)
         {
             var uploadParams = new ImageUploadParams
             {
@@ -45,7 +46,11 @@ namespace Mille.Infrastructure.Services
             if (uploadResult.Error is not null)
                 throw new Exception($"Cloudinary upload failed: {uploadResult.Error.Message}");
 
-            return uploadResult.SecureUrl.ToString();
+            return new FileUploadResult
+            {
+                PublicId = uploadResult.PublicId,
+                Url = uploadResult.SecureUrl.ToString(),
+            };
         }
 
         public async Task<bool> DeleteFileAsync(string publicId, CancellationToken ct = default)
