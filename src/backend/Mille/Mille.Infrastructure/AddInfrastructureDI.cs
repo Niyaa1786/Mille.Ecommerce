@@ -5,6 +5,7 @@ using Mille.Application.Common.Interfaces;
 using Mille.Infrastructure.Persistence.Data;
 using Mille.Infrastructure.Persistence.Repositories;
 using Mille.Infrastructure.Security;
+using Mille.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Mille.Infrastructure
 
             services.AddScoped<ITokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+            services.AddScoped<IFileUploadService, CloudinaryService>();
 
             return services;
         }
