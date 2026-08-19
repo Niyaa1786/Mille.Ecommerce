@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mille.Api.Responses;
 using Mille.Application.Features.Users.AddAddress;
+using Mille.Application.Features.Users.ChangePassword;
 using Mille.Application.Features.Users.DeleteAddress;
 using Mille.Application.Features.Users.GetProfile;
 using Mille.Application.Features.Users.Login;
@@ -31,6 +32,7 @@ namespace Mille.Api.Controllers
         private readonly UpdateAddressUseCase _updateAddressUseCase;
         private readonly DeleteAddressUseCase _deleteAddressUseCase;
         private readonly UploadAvatarUseCase _uploadAvatarUseCase;
+        private readonly ChangePasswordUseCase _changePasswordUseCase;
 
         public UsersController(
             RegisterUseCase registerUseCase,
@@ -42,7 +44,8 @@ namespace Mille.Api.Controllers
             AddAddressUseCase addAddressUseCase,
             UpdateAddressUseCase updateAddressUseCase,
             DeleteAddressUseCase deleteAddressUseCase,
-            UploadAvatarUseCase uploadAvatarUseCase)
+            UploadAvatarUseCase uploadAvatarUseCase,
+            ChangePasswordUseCase changePasswordUseCase )
         {
             _registerUseCase = registerUseCase;
             _loginUseCase = loginUseCase;
@@ -54,6 +57,7 @@ namespace Mille.Api.Controllers
             _updateAddressUseCase = updateAddressUseCase;
             _deleteAddressUseCase = deleteAddressUseCase;
             _uploadAvatarUseCase = uploadAvatarUseCase;
+            _changePasswordUseCase = changePasswordUseCase;
         }
         #endregion
         [HttpPost("register")]
@@ -96,6 +100,18 @@ namespace Mille.Api.Controllers
         }
 
         [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request ,CancellationToken ct)
+        {
+            request.UserId = GetUserId();
+            var result = await _changePasswordUseCase.ExecuteAsync(request, ct);
+            var res = ApiResponse<ChangePasswordResponse>.Success(result, result.Message);
+
+            return Ok(res);
+        }
+
+
+        [Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile(CancellationToken ct)
         {
@@ -114,6 +130,7 @@ namespace Mille.Api.Controllers
             request.UserId = GetUserId();
             var result = await _updateProfileUseCase.ExecuteAsync(request, ct);
             var res = ApiResponse<UpdateProfileResponse>.Success(result, "Profile updated.");
+
             return Ok(res);
         }
 
@@ -131,6 +148,7 @@ namespace Mille.Api.Controllers
             };
             var result = await _uploadAvatarUseCase.ExecuteAsync(request, ct);
             var res = ApiResponse<UploadAvatarResponse>.Success(result, "Avatar uploaded.");
+
             return Ok(res);
         }
 
