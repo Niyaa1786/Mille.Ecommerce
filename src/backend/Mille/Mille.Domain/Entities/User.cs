@@ -80,6 +80,13 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void Restore()
+        {
+            if (!IsDeleted) return;
+            IsDeleted = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public Address AddAddress(string receiverName, string receiverPhone, string addressLine, bool isDefault = false)
         {
             if (isDefault)
