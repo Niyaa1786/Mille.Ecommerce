@@ -8,6 +8,7 @@ namespace Mille.Domain.Interfaces
 {
     public interface IProductRepository : IBaseRepository<Product, Guid>
     {
+        Task<Product?> GetByIdWithDetailsAsync(Guid id, CancellationToken ct = default);
         Task<IEnumerable<Product>> GetProductsAsync(
             int? categoryId = null,
             string? keyword = null,
