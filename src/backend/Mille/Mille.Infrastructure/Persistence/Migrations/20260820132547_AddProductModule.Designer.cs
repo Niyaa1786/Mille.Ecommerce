@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mille.Infrastructure.Persistence.Data;
 
@@ -11,9 +12,11 @@ using Mille.Infrastructure.Persistence.Data;
 namespace Mille.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260820132547_AddProductModule")]
+    partial class AddProductModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,19 +264,6 @@ namespace Mille.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            CreatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@mille.com",
-                            FullName = "Admin",
-                            IsDeleted = false,
-                            PasswordHash = "$2a$11$E3RGRhjfkGzTz5J42JIOXe3dpiCEGaiZZxLIYfm0qdwnc/xFU/w.u",
-                            Role = 0,
-                            UpdatedAt = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Mille.Domain.Entities.Address", b =>
