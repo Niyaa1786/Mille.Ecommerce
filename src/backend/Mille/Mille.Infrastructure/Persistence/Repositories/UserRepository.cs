@@ -16,6 +16,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken ct)
             => await _context.Users
+                .AsNoTracking()
                 .Include(u => u.Addresses)
                 .Where(u => !u.IsDeleted)
                 .ToListAsync(ct);
