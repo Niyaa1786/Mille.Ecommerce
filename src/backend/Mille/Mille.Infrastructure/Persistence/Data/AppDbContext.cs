@@ -114,10 +114,10 @@ namespace Mille.Infrastructure.Persistence.Data
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 Role = UserRole.Admin,
                 FullName = "Admin",
-                Email = "admin@domain.com",
+                Email = "admin@mille.com",
                 PasswordHash = "$2a$11$E3RGRhjfkGzTz5J42JIOXe3dpiCEGaiZZxLIYfm0qdwnc/xFU/w.u",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = new DateTime(2026, 8, 20),
+                UpdatedAt = new DateTime(2026, 8, 20),
                 IsDeleted = false
             });
         }
