@@ -9,5 +9,6 @@ namespace Mille.Domain.Interfaces
     {
         Task<Category?> GetByNameAsync(string name, CancellationToken ct = default);
         Task<IEnumerable<Category>> GetAllActiveAsync(CancellationToken ct = default);
+        Task<bool> IsExistByName(string name, CancellationToken ct = default);
     }
 }
