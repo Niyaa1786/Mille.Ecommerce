@@ -35,6 +35,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
 
         public async Task<bool> IsExistByName(string name, CancellationToken ct)
             => await _context.Categories.AnyAsync(c => c.Name == name, ct);
+
         public void Add(Category entity) => _context.Categories.Add(entity);
         public void Update(Category entity) => _context.Categories.Update(entity);
         public void Remove(Category entity) => _context.Categories.Remove(entity);
