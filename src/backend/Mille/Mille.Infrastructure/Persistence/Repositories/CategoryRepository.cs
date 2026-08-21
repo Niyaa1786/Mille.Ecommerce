@@ -16,7 +16,6 @@ namespace Mille.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken ct)
             => await _context.Categories
                 .AsNoTracking()
-                .Where(c => !c.IsDeleted)
                 .ToListAsync(ct);
 
         public async Task<IEnumerable<Category>> GetAllActiveAsync(CancellationToken ct)
@@ -35,6 +34,41 @@ namespace Mille.Infrastructure.Persistence.Repositories
 
         public async Task<bool> IsExistByName(string name, CancellationToken ct)
             => await _context.Categories.AnyAsync(c => c.Name == name, ct);
+
+        public async Task<int> CountAsync(bool includeDeleted = false, CancellationToken ct = default)
+        {
+            var query = _context.Categories.AsQueryable();
+
+            if (!includeDeleted)
+                query = query.Where(c => !c.IsDeleted);
+
+            return await query.CountAsync(ct);
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoriesAsync(
+            string? keyword = null,
+            bool includeDeleted = false,
+            int page = 1,
+            int pageSize = 10,
+            CancellationToken ct = default)
+        {
+            var query = _context.Categories
+                .AsNoTracking()
+                .AsQueryable();
+
+            if (!includeDeleted)
+                query = query.Where(c => !c.IsDeleted);
+
+            if (!string.IsNullOrEmpty(keyword))
+                query.Where(
+                    c => c.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) || 
+                    (c.Description != null && c.Description.Contains(keyword,StringComparison.OrdinalIgnoreCase)));
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+        }
 
         public void Add(Category entity) => _context.Categories.Add(entity);
         public void Update(Category entity) => _context.Categories.Update(entity);
