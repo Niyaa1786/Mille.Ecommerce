@@ -28,6 +28,8 @@ namespace Mille.Domain.Entities
 
         public void UpdateInfo(string name, string description)
         {
+            if(IsDeleted) throw new DomainException("Cannot update a deleted category.");
+
             Name = name;
             Description = description;
             UpdatedAt = DateTime.UtcNow;
