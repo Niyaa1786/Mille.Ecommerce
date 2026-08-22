@@ -78,7 +78,7 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public ProductImage AddImage(string imageUrl, Guid publicId, bool isThumbnail = false)
+        public ProductImage AddImage(string imageUrl, string publicId, bool isThumbnail = false)
         {
             if (isThumbnail)
             {

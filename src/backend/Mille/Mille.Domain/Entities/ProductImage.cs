@@ -8,7 +8,7 @@ namespace Mille.Domain.Entities
     {
         public int Id { get; private set; }
         public Guid ProductId { get; private set; }
-        public Guid? PublicId { get; private set; }
+        public string? PublicId { get; private set; }
         public string ImageUrl { get; private set; } = string.Empty;
         public bool IsThumbnail { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Mille.Domain.Entities
 
         private ProductImage() { }
 
-        public ProductImage(Product product, Guid publicId, string imageUrl, bool isThumbnail = false)
+        public ProductImage(Product product, string publicId, string imageUrl, bool isThumbnail = false)
         {
             ProductId = product.Id;
             ImageUrl = imageUrl;
