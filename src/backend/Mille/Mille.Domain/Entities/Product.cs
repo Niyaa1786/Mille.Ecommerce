@@ -78,22 +78,15 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public ProductImage AddImage(string imageUrl, bool isThumbnail = false, Guid? variantId = null)
+        public ProductImage AddImage(string imageUrl, Guid publicId, bool isThumbnail = false)
         {
-            if (isThumbnail && variantId == null)
+            if (isThumbnail)
             {
-                //Add thumbnail for Product
-                foreach (var img in _images.Where(i => i.ProductVariantId == null && i.IsThumbnail))
-                    img.ClearThumbnail();
-            }
-            else if (isThumbnail && variantId.HasValue)
-            {
-                // Add thumbnail for ProductVarient
-                foreach (var img in _images.Where(i => i.ProductVariantId == variantId.Value && i.IsThumbnail))
+                foreach (var img in _images.Where(i => i.IsThumbnail))
                     img.ClearThumbnail();
             }
 
-            var image = new ProductImage(this, imageUrl, isThumbnail, variantId);
+            var image = new ProductImage(this, publicId, imageUrl, isThumbnail);
             _images.Add(image);
             UpdatedAt = DateTime.UtcNow;
 
