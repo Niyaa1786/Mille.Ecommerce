@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Mille.Application.Common.DTOs;
 using Mille.Application.Common.Interfaces;
@@ -55,6 +56,32 @@ namespace Mille.Infrastructure.Services
                 PublicId = uploadResult.PublicId,
                 Url = uploadResult.SecureUrl.ToString(),
             };
+        }
+
+        public async Task<IEnumerable<FileUploadResult>> UploadFilesAsync(IEnumerable<IFormFile> files, string folder, CancellationToken ct = default)
+        {
+            var uploadTasks = files.Select(f =>
+            {
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(f.FileName, f.OpenReadStream()),
+                    Folder = folder,
+                    UniqueFilename = true,
+                    Transformation = new Transformation()
+                    .Width(1200).Crop("limit")
+                    .Quality("auto:good")
+                    .FetchFormat("auto")
+                };
+                return _cloudinary.UploadAsync(uploadParams, ct);
+            });
+
+            var uploadResults = await Task.WhenAll(uploadTasks);
+
+            return uploadResults.Select(r => new FileUploadResult
+            {
+                PublicId = r.PublicId,
+                Url = r.SecureUrl.ToString(),
+            }).ToList();
         }
 
         public async Task<bool> DeleteFileAsync(string publicId, CancellationToken ct = default)
