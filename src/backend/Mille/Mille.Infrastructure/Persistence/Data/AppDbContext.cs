@@ -94,14 +94,14 @@ namespace Mille.Infrastructure.Persistence.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ImageUrl).IsRequired().HasMaxLength(500);
-                entity.Property(e => e.ProductVariantId).IsRequired(false);
+                entity.Property(e => e.PublicId).HasMaxLength(255);
 
                 entity.HasOne(i => i.Product)
                       .WithMany(p => p.Images)
                       .HasForeignKey(i => i.ProductId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasIndex(i => i.ProductVariantId);
+                entity.HasIndex(i => i.PublicId);
             });
 
             SeedData(modelBuilder);
