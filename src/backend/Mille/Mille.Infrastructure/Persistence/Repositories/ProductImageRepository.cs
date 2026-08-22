@@ -24,9 +24,9 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 .Where(i => i.ProductId == productId)
                 .ToListAsync(ct);
 
-        public async Task<IEnumerable<ProductImage>> GetByVariantIdAsync(Guid variantId, CancellationToken ct)
+        public async Task<IEnumerable<ProductImage>> GetByPublicIdAsync(string publicId, CancellationToken ct)
             => await _context.ProductImages
-                .Where(i => i.ProductVariantId == variantId)
+                .Where(i => i.PublicId == publicId)
                 .ToListAsync(ct);
 
         public void Add(ProductImage entity) => _context.ProductImages.Add(entity);
