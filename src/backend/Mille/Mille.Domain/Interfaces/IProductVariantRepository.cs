@@ -9,5 +9,6 @@ namespace Mille.Domain.Interfaces
     {
         Task<ProductVariant?> GetBySKUAsync(string sku, CancellationToken ct = default);
         Task<IEnumerable<ProductVariant>> GetByProductIdAsync(Guid productId, CancellationToken ct = default);
-    }
+        Task<bool> IsExistBySkuAsync(string sku, CancellationToken ct = default);
+     }
 }

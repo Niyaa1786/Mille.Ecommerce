@@ -27,6 +27,9 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 .Where(v => v.ProductId == productId)
                 .ToListAsync(ct);
 
+        public async Task<bool> IsExistBySkuAsync(string sku, CancellationToken ct)
+            => await _context.ProductVariants.AnyAsync(v => v.SKU == sku, ct);
+
         public void Add(ProductVariant entity) => _context.ProductVariants.Add(entity);
         public void Update(ProductVariant entity) => _context.ProductVariants.Update(entity);
         public void Remove(ProductVariant entity) => _context.ProductVariants.Remove(entity);
