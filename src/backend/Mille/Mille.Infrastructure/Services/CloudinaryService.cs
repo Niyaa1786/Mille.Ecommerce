@@ -60,11 +60,11 @@ namespace Mille.Infrastructure.Services
 
         public async Task<IEnumerable<FileUploadResult>> UploadFilesAsync(IEnumerable<IFormFile> files, string folder, CancellationToken ct = default)
         {
-            var uploadTasks = files.Select(f =>
+            var uploadTasks = files.Select(async (file, index) =>
             {
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(f.FileName, f.OpenReadStream()),
+                    File = new FileDescription(file.FileName, file.OpenReadStream()),
                     Folder = folder,
                     UniqueFilename = true,
                     Transformation = new Transformation()
@@ -72,16 +72,25 @@ namespace Mille.Infrastructure.Services
                     .Quality("auto:good")
                     .FetchFormat("auto")
                 };
-                return _cloudinary.UploadAsync(uploadParams, ct);
+                var uploadResult =  await _cloudinary.UploadAsync(uploadParams, ct);
+
+                return new
+                {
+                    Index = index,
+                    Result = new FileUploadResult
+                    {
+                        PublicId = uploadResult.PublicId,
+                        Url = uploadResult.SecureUrl.ToString()
+                    }
+                };
             });
 
-            var uploadResults = await Task.WhenAll(uploadTasks);
+            var resultsWithIndex = await Task.WhenAll(uploadTasks);
 
-            return uploadResults.Select(r => new FileUploadResult
-            {
-                PublicId = r.PublicId,
-                Url = r.SecureUrl.ToString(),
-            }).ToList();
+            return resultsWithIndex
+                .OrderBy(x => x.Index)
+                .Select(r => r.Result)
+                .ToList();
         }
 
         public async Task<bool> DeleteFileAsync(string publicId, CancellationToken ct = default)
