@@ -12,6 +12,6 @@ namespace Mille.Application.Common.Interfaces
         Task<IEnumerable<FileUploadResult>> UploadFilesAsync(IEnumerable<IFormFile> files, string folder, CancellationToken ct = default);
 
         Task<bool> DeleteFileAsync(string publicId, CancellationToken ct = default);
-
+        Task<bool> DeleteFilesAsync(IEnumerable<string> publicIds, CancellationToken ct = default);
     }
 }

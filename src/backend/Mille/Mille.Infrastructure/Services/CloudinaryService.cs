@@ -6,6 +6,7 @@ using Mille.Application.Common.DTOs;
 using Mille.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Mille.Infrastructure.Services
@@ -103,6 +104,21 @@ namespace Mille.Infrastructure.Services
             var deletionResult = await _cloudinary.DestroyAsync(deletionParams);
 
             return deletionResult.Result == "ok";
+        }
+
+        public async Task<bool> DeleteFilesAsync(IEnumerable<string> publicIds, CancellationToken ct = default)
+        {
+            var idsList = publicIds.Where(id => !string.IsNullOrEmpty(id)).Distinct().ToList();
+            if (!idsList.Any()) return true;
+
+            var delResParams = new DelResParams
+            {
+                PublicIds = idsList,
+                ResourceType = ResourceType.Image
+            };
+            var deletionResult = await _cloudinary.DeleteResourcesAsync(delResParams, ct);
+
+            return deletionResult.StatusCode == HttpStatusCode.OK;
         }
     }
 }
