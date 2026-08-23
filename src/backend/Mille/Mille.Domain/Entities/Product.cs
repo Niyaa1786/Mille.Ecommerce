@@ -108,5 +108,15 @@ namespace Mille.Domain.Entities
         {
             return _variants.FirstOrDefault(v => v.Id == varientId);
         }
+
+        public decimal GetCheapestPrice()
+        {
+            return _variants.Min(v => v.Price);
+        }
+
+        public ProductVariant? GetCheapestVariant()
+        {
+            return _variants.MinBy(v => v.Price);
+        }
     }
 }
