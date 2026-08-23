@@ -61,6 +61,7 @@ namespace Mille.Application.Features.Products.CreateProduct
             return new CreateProductResponse
             {
                 Id = product.Id,
+                CategoryId = product.CategoryId,
                 Name = product.Name,
                 Description = product.Description,
                 Status = product.Status.ToString(),
