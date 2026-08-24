@@ -24,7 +24,11 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 .ToListAsync(ct);
 
         public async Task<Product?> GetByIdAsync(Guid id, CancellationToken ct)
-            => await _context.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, ct);
+            => await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Variants)
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, ct);
 
         public async Task<Product?> GetByIdWithDetailsAsync(Guid id, CancellationToken ct)
             => await _context.Products
