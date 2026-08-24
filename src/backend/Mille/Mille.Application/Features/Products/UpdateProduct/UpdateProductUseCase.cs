@@ -52,6 +52,11 @@ namespace Mille.Application.Features.Products.UpdateProduct
             {
                 product.RemoveVariant(variant.Id);
             }
+            foreach (var v in request.Variants)
+            {
+                product.AddVariant(v.SKU, v.Price, v.Stock, v.Size, v.Color);
+            }
+
             var oldImage = product.Images.ToList();
             foreach(var image in oldImage)
             {
