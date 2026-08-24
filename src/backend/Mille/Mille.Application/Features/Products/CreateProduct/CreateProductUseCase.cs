@@ -81,6 +81,7 @@ namespace Mille.Application.Features.Products.CreateProduct
                 {
                     Id = i.Id,
                     ImageUrl = i.ImageUrl,
+                    PublicId = i.PublicId,
                     IsThumbnail = i.IsThumbnail,
 
                 }).ToList()
