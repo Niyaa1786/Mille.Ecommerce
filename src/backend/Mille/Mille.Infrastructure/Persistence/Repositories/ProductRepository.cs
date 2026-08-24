@@ -60,8 +60,8 @@ namespace Mille.Infrastructure.Persistence.Repositories
 
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(
-                    p => p.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) || 
-                    (p.Description != null && p.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase)));
+                    p => p.Name.Contains(keyword) || 
+                    (p.Description != null && p.Description.Contains(keyword)));
 
             return await query
                 .Skip((page - 1) * pageSize)
