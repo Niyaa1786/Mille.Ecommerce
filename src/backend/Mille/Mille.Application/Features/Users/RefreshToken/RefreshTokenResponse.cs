@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.RefreshToken
+namespace Mille.Application.Features.Auth.RefreshToken
 {
     public class RefreshTokenResponse
     {

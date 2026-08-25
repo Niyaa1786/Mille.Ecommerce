@@ -1,6 +1,6 @@
 ﻿using Mille.Application.Common.Exceptions;
 using Mille.Application.Common.Interfaces;
-using Mille.Application.Features.Users.Register;
+using Mille.Application.Features.Auth.Register;
 using System;
 using System.Collections.Generic;
 using System.Text;

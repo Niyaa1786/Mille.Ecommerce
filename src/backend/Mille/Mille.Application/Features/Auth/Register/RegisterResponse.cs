@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.Register
+namespace Mille.Application.Features.Auth.Register
 {
     public class RegisterResponse
     {

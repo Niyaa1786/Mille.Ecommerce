@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.UpdateProfile
+namespace Mille.Application.Features.Auth.UpdateProfile
 {
     public class UpdateProfileResponse : UserProfileDto
     {

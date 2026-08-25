@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace Mille.Application.Features.Users.ChangePassword
+namespace Mille.Application.Features.Auth.ChangePassword
 {
     public class ChangePasswordUseCase : IUseCase<ChangePasswordRequest, ChangePasswordResponse>
     {

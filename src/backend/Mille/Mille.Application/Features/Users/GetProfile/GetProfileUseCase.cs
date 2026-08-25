@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.GetProfile
+namespace Mille.Application.Features.Auth.GetProfile
 {
     public class GetProfileUseCase : IUseCase<GetProfileRequest, GetProfileResponse>
     {

@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using Mille.Application.Features.Auth.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.Login
+namespace Mille.Application.Features.Auth.Login
 {
     public class LoginValidator : AbstractValidator<LoginRequest>
     {

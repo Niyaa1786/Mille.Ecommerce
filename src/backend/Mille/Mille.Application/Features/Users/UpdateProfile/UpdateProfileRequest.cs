@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Mille.Application.Features.Users.UpdateProfile
+namespace Mille.Application.Features.Auth.UpdateProfile
 {
     public class UpdateProfileRequest
     {

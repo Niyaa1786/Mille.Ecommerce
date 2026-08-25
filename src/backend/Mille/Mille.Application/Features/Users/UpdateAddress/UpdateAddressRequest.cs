@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Mille.Application.Features.Users.UpdateAddress
+namespace Mille.Application.Features.Auth.UpdateAddress
 {
     public class UpdateAddressRequest
     {

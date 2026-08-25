@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.Register
+namespace Mille.Application.Features.Auth.Login
 {
-    public class RegisterRequest
+    public class LoginRequest
     {
-        public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public string? Phone { get; set; }
     }
 }

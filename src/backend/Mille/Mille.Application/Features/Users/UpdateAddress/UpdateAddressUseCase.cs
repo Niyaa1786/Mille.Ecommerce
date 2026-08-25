@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Users.UpdateAddress
+namespace Mille.Application.Features.Auth.UpdateAddress
 {
     public class UpdateAddressUseCase : IUseCase<UpdateAddressRequest, UpdateAddressResponse>
     {
