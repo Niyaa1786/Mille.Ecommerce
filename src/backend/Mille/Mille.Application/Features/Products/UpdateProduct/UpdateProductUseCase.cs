@@ -35,49 +35,57 @@ namespace Mille.Application.Features.Products.UpdateProduct
                 throw new NotFoundException(nameof(Categories), request.CategoryId);
 
             var skus = request.Variants.Select(v => v.SKU).ToList();
-            if(skus.Count() != skus.Distinct().Count())
+            if (skus.Count() != skus.Distinct().Count())
                 throw new AppValidationException(nameof(request.Variants), "Duplicate SKU in request.");
 
-            foreach(var sku in skus)
+            foreach (var sku in skus)
             {
-                var isSkuExist = await _unitOfWork.ProductVariants.IsExistBySkuAsync(sku, ct);
-                if(isSkuExist)
+                var existingVariant = await _unitOfWork.ProductVariants.GetBySKUAsync(sku, ct);
+                if (existingVariant != null && existingVariant.ProductId != request.Id)
                     throw new AppValidationException(nameof(CreateVariantRequest.SKU), $"SKU '{sku}' already exists.");
             }
 
+            var oldPublicIds = product.GetPublicIds();
+            var uploadResults = await _fileUploadService.UploadFilesAsync(request.Images, "products", ct);
+
+            var newVariants = request.Variants.Select(v => (v.SKU, v.Price, v.Stock, v.Size, v.Color)).ToList();
+            var newImages = uploadResults.Select(i => (i.Url, i.PublicId)).ToList();
+
             product.Update(request.Name, request.CategoryId, request.Description, request.Status);
 
-            var oldVariant = product.Variants.ToList();
-            foreach(var variant in oldVariant)
+            var oldVariants = product.Variants.ToList();
+            foreach (var oldVariant in oldVariants)
             {
-                product.RemoveVariant(variant.Id);
-            }
-            foreach (var v in request.Variants)
-            {
-                product.AddVariant(v.SKU, v.Price, v.Stock, v.Size, v.Color);
+                product.RemoveVariant(oldVariant.Id);
+                _unitOfWork.ProductVariants.Remove(oldVariant);
             }
 
-            var oldImage = product.Images.ToList();
-            foreach(var image in oldImage)
+            foreach (var v in newVariants)
             {
-                product.RemoveImage(image.Id);
+                var addedVariant = product.AddVariant(v.SKU, v.Price, v.Stock, v.Size, v.Color);
+                _unitOfWork.ProductVariants.Add(addedVariant);
             }
 
-            var uploadResults = await _fileUploadService.UploadFilesAsync(request.Images, "Product", ct);
-            bool isFirst = true;
-            foreach(var result in uploadResults)
+            var oldImages = product.Images.ToList();
+            foreach (var oldImage in oldImages)
             {
-                product.AddImage(result.Url, result.PublicId, isFirst);
+                product.RemoveImage(oldImage.Id);
+                _unitOfWork.ProductImages.Remove(oldImage);
+            }
+
+            var isFirst = true;
+            foreach (var img in newImages)
+            {
+                var addedImage = product.AddImage(img.Url, img.PublicId, isFirst);
+                _unitOfWork.ProductImages.Add(addedImage);
                 isFirst = false;
             }
 
-            var productImages = await _unitOfWork.ProductImages.GetByProductIdAsync(product.Id, ct);
-            var idsList = productImages.Select(i => i.PublicId).ToList();
-            var isSuccess = await _fileUploadService.DeleteFilesAsync(idsList, ct);
-            if (isSuccess == false)
-                throw new Exception($"Failed to delete images on Cloudinary for list: {idsList}.");
-
             await _unitOfWork.SaveChangesAsync(ct);
+
+            var isSuccess = await _fileUploadService.DeleteFilesAsync(oldPublicIds, ct);
+            if (isSuccess == false)
+                throw new Exception($"Failed to delete images on Cloudinary for list: {oldPublicIds}.");
 
             return new UpdateProductResponse
             {
@@ -103,7 +111,6 @@ namespace Mille.Application.Features.Products.UpdateProduct
                     PublicId = i.PublicId,
                     ImageUrl = i.ImageUrl,
                     IsThumbnail = i.IsThumbnail
-
                 }).ToList()
             };
         }

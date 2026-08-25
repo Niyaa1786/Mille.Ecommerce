@@ -60,7 +60,7 @@ namespace Mille.Domain.Entities
             if (_variants.Any(v => v.SKU == sku))
                 throw new DomainException($"Variant with SKU '{sku}' already exists.");
 
-            var newVariant = new ProductVariant(this, sku, price, stock, size, color);
+            var newVariant = new ProductVariant(this.Id, sku, price, stock, size, color);
             _variants.Add(newVariant);
             UpdatedAt = DateTime.UtcNow;
 
@@ -86,14 +86,14 @@ namespace Mille.Domain.Entities
                     img.ClearThumbnail();
             }
 
-            var image = new ProductImage(this, publicId, imageUrl, isThumbnail);
+            var image = new ProductImage(this.Id, publicId, imageUrl, isThumbnail);
             _images.Add(image);
             UpdatedAt = DateTime.UtcNow;
 
             return image;
         }
 
-        public void RemoveImage(int imageId)
+        public void RemoveImage(Guid imageId)
         {
             var image = _images.FirstOrDefault(i => i.Id == imageId);
 
@@ -111,12 +111,19 @@ namespace Mille.Domain.Entities
 
         public decimal GetCheapestPrice()
         {
+            if (_variants.Count == 0)
+                return 0;
             return _variants.Min(v => v.Price);
         }
 
         public ProductVariant? GetCheapestVariant()
         {
             return _variants.MinBy(v => v.Price);
+        }
+
+        public List<string> GetPublicIds()
+        {
+            return _images.Select(i => i.PublicId).ToList();
         }
     }
 }

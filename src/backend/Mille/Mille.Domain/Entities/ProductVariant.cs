@@ -22,13 +22,11 @@ namespace Mille.Domain.Entities
 
         private ProductVariant() { }
 
-        public ProductVariant(Product product, string sku, decimal price, int stock, string? size = null, string? color = null)
+        public ProductVariant(Guid productId, string sku, decimal price, int stock, string? size = null, string? color = null)
         {
-            if (product.Status == ProductStatus.Discontinued)
-                throw new DomainException("Cannot add variant to a discontinued product.");
 
             Id = Guid.NewGuid();
-            ProductId = product.Id;
+            ProductId = productId;
             SKU = sku;
             Price = price;
             Stock = stock;
@@ -38,9 +36,8 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void Update(string sku, decimal price, int stock, string? size, string? color)
+        public void Update(decimal price, int stock, string? size, string? color)
         {
-            SKU = sku;
             Price = price;
             Stock = stock;
             Size = size;
