@@ -12,6 +12,7 @@ namespace Mille.Application.Common.Interfaces
         IProductRepository Products { get; }
         IProductVariantRepository ProductVariants { get; }
         IProductImageRepository ProductImages { get; }
+        ICartRepository Carts { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

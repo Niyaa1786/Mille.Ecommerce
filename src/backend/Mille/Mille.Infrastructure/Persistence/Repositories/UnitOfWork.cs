@@ -16,6 +16,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
         private IProductRepository _productRepository;
         private IProductVariantRepository _productVariantRepository;
         private IProductImageRepository _productImageRepository;
+        private ICartRepository _cartRepository;
 
         public UnitOfWork(AppDbContext context) => _context = context;
         public IUserRepository Users => _userRepository ??= new UserRepository(_context);
@@ -28,6 +29,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
 
         public IProductImageRepository ProductImages => _productImageRepository  ??= new ProductImageRepository(_context);
 
+        public ICartRepository Carts => _cartRepository ??= new CartRepository(_context);
 
         public Task<int> SaveChangesAsync(CancellationToken ct = default) => _context.SaveChangesAsync(ct);
     }
