@@ -37,6 +37,9 @@ namespace Mille.Infrastructure.Persistence.Repositories
                         .ThenInclude(p => p.Images)
             .FirstOrDefaultAsync(ct);
 
+        public async Task<int> CountCartItemsByUserIdAsync(Guid userId, CancellationToken ct = default)
+            => await _context.CartItems.CountAsync(ci => ci.Cart.UserId == userId, ct);
+
         public void Add(Cart entity) => _context.Carts.Add(entity);
         public void Update(Cart entity) => _context.Carts.Update(entity);
         public void Remove(Cart entity) => _context.Carts.Remove(entity);

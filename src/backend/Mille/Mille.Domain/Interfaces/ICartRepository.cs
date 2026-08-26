@@ -10,5 +10,6 @@ namespace Mille.Domain.Interfaces
         Task<Cart?> GetByIdWithDetails(Guid id, CancellationToken ct = default);
         Task<Cart?> GetByUserIdAsync(Guid userId, CancellationToken ct = default);
         Task<Cart?> GetByUserIdWithDetailsAsync(Guid userId, CancellationToken ct = default);
+        Task<int> CountCartItemsByUserIdAsync(Guid userId, CancellationToken ct = default);
     }
 }
