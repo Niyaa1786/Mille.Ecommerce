@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Mille.Domain\Mille.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Carts\" />
+  </ItemGroup>
+
 </Project>
