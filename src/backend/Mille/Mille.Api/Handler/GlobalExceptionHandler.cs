@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Mille.Api.Responses;
 using Mille.Application.Common.Exceptions;
 using Mille.Domain.Exceptions;
@@ -37,6 +38,11 @@ namespace Mille.Api.Handler
             {
                 statusCode = (int)HttpStatusCode.Unauthorized;
                 message = "Unauthorized access";
+            }
+            else if(exception is DbUpdateConcurrencyException dbEx)
+            {
+                statusCode = (int)HttpStatusCode.Conflict;
+                message = "An unexpected error occurred. Please try again later.";
             }
             else if(exception is Exception ex)
             {
