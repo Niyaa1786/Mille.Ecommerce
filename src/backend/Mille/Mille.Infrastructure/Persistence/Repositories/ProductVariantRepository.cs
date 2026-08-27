@@ -19,6 +19,11 @@ namespace Mille.Infrastructure.Persistence.Repositories
         public async Task<ProductVariant?> GetByIdAsync(Guid id, CancellationToken ct)
             => await _context.ProductVariants.FindAsync(id, ct);
 
+        public async Task<ProductVariant?> GetByIdWithDetailsAsync(Guid id, CancellationToken ct)
+            => await _context.ProductVariants
+                .Include(v => v.Product)
+                .FirstOrDefaultAsync(v => v.Id == id , ct);
+
         public async Task<ProductVariant?> GetBySKUAsync(string sku, CancellationToken ct)
             => await _context.ProductVariants.AsNoTracking().FirstOrDefaultAsync(v => v.SKU == sku, ct);
 

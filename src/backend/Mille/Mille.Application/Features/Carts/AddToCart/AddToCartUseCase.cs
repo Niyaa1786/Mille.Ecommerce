@@ -22,7 +22,7 @@ namespace Mille.Application.Features.Carts.AddToCart
         {
             _validator.ValidateAndThrow(request);
 
-            var variant = await _unitOfWork.ProductVariants.GetByIdAsync(request.ProductVariantId, ct);
+            var variant = await _unitOfWork.ProductVariants.GetByIdWithDetailsAsync(request.ProductVariantId, ct);
 
             if (variant == null)
                 throw new NotFoundException(nameof(ProductVariant), request.ProductVariantId);
