@@ -1,0 +1,55 @@
+﻿using FluentValidation;
+using Mille.Application.Common.Exceptions;
+using Mille.Application.Common.Interfaces;
+using Mille.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Mille.Application.Features.Carts.AddToCart
+{
+    public class AddToCartUseCase : IUseCase<AddToCartRequest, AddToCartResponse>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<AddToCartRequest> _validator;
+        public AddToCartUseCase(IUnitOfWork unitOfWork, IValidator<AddToCartRequest> validator)
+        {
+            _unitOfWork = unitOfWork;
+            _validator = validator;
+        }
+
+        public async Task<AddToCartResponse> ExecuteAsync(AddToCartRequest request, CancellationToken ct = default)
+        {
+            _validator.ValidateAndThrow(request);
+
+            var variant = await _unitOfWork.ProductVariants.GetByIdAsync(request.ProductVariantId, ct);
+
+            if (variant == null)
+                throw new NotFoundException(nameof(ProductVariant), request.ProductVariantId);
+
+            if (variant.Stock < request.Quantity)
+                throw new AppValidationException(nameof(request.Quantity), $"Not enough stock. Available: {variant.Stock}");
+
+            var cart = await _unitOfWork.Carts.GetByUserIdAsync(request.UserId, ct);
+            if (cart == null)
+            {
+                cart = new Cart(request.UserId);
+                _unitOfWork.Carts.Add(cart);
+            }
+
+            cart.AddItem(variant, request.Quantity);
+
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            var productName = variant.Product.Name;
+            var totalCartItems = await _unitOfWork.Carts.CountCartItemsByUserIdAsync(request.UserId, ct);
+
+            return new AddToCartResponse
+            {
+                ProductName = productName,
+                TotalCartItems = totalCartItems,
+                Message = $"Added {request.Quantity} x {productName} to cart"
+            };
+        }
+    }
+}
