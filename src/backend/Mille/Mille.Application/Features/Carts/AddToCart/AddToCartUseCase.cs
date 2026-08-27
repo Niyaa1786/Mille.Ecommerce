@@ -30,7 +30,7 @@ namespace Mille.Application.Features.Carts.AddToCart
             if (variant.Stock < request.Quantity)
                 throw new AppValidationException(nameof(request.Quantity), $"Not enough stock. Available: {variant.Stock}");
 
-            var cart = await _unitOfWork.Carts.GetByUserIdAsync(request.UserId, ct);
+            var cart = await _unitOfWork.Carts.GetByUserIdWithDetailsAsync(request.UserId, ct);
             if (cart == null)
             {
                 cart = new Cart(request.UserId);
@@ -48,7 +48,7 @@ namespace Mille.Application.Features.Carts.AddToCart
             {
                 ProductName = productName,
                 TotalCartItems = totalCartItems,
-                Message = $"Added {request.Quantity} x {productName} to cart"
+                Message = $"'{productName}' (x{request.Quantity}) added to cart."
             };
         }
     }
