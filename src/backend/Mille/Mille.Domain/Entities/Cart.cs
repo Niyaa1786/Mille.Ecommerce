@@ -47,11 +47,11 @@ namespace Mille.Domain.Entities
             }
         }
 
-        public void RemoveItem(Guid cartId)
+        public void RemoveItem(int cartItemId)
         {
-            var item = _items.FirstOrDefault(ci => ci.CartId == cartId);
+            var item = _items.FirstOrDefault(ci => ci.Id == cartItemId);
             if (item == null)
-                throw new DomainException("Cart Item not found");
+                throw new DomainException("Cart item not found");
 
             _items.Remove(item);
             UpdatedAt = DateTime.UtcNow;
@@ -61,10 +61,12 @@ namespace Mille.Domain.Entities
         {
             var item = _items.FirstOrDefault(ci => ci.Id ==  cartItemId);
             if(item == null)
-                throw new DomainException("Cart Item not found");
+                throw new DomainException("Cart item not found");
 
             item.SetQuantity(newQuantity);
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public decimal TotalPrice => _items.Sum(ci => ci.SubTotal);
     }
 }

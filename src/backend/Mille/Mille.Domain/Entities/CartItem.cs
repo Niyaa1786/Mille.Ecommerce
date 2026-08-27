@@ -49,5 +49,7 @@ namespace Mille.Domain.Entities
 
             Quantity -= amount;
         }
+
+        public decimal SubTotal => ProductVariant.Price * Quantity;
     }
 }
