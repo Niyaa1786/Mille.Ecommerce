@@ -45,10 +45,22 @@ namespace Mille.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AdjustStock(int quantity)
+        public void DeductStock(int quantity)
         {
-            if (Stock + quantity < 0)
-                throw new DomainException("Not enough stock.");
+            if (quantity <= 0)
+                throw new DomainException("Quantity to deduct must be greater than zero.");
+
+            if (Stock < quantity)
+                throw new DomainException($"Not enough stock for variant {SKU}. Current: {Stock}, Required: {quantity}");
+
+            Stock -= quantity;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Restock(int quantity)
+        {
+            if (quantity <= 0)
+                throw new DomainException("Quantity to restock must be greater than zero.");
 
             Stock += quantity;
             UpdatedAt = DateTime.UtcNow;
