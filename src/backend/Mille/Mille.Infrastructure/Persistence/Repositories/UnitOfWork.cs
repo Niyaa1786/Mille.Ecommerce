@@ -12,16 +12,18 @@ namespace Mille.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _context;
         private IUserRepository _userRepository;
-        private ICategoryRepository categoryRepository;
+        private ICategoryRepository _categoryRepository;
         private IProductRepository _productRepository;
         private IProductVariantRepository _productVariantRepository;
         private IProductImageRepository _productImageRepository;
         private ICartRepository _cartRepository;
+        private IOrderRepository _orderRepository;
+        private IPaymentRepository _paymentRepository;
 
         public UnitOfWork(AppDbContext context) => _context = context;
         public IUserRepository Users => _userRepository ??= new UserRepository(_context);
 
-        public ICategoryRepository Categories => categoryRepository ??= new CategoryRepository(_context);
+        public ICategoryRepository Categories => _categoryRepository ??= new CategoryRepository(_context);
 
         public IProductRepository Products => _productRepository ??= new ProductRepository(_context);
 
@@ -30,6 +32,10 @@ namespace Mille.Infrastructure.Persistence.Repositories
         public IProductImageRepository ProductImages => _productImageRepository  ??= new ProductImageRepository(_context);
 
         public ICartRepository Carts => _cartRepository ??= new CartRepository(_context);
+
+        public IOrderRepository Orders => _orderRepository ??= new OrderRepository(_context);
+
+        public IPaymentRepository Payments => _paymentRepository ??= new PaymentRepository(_context);
 
         public Task<int> SaveChangesAsync(CancellationToken ct = default) => _context.SaveChangesAsync(ct);
     }

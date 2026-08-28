@@ -14,12 +14,19 @@ namespace Mille.Infrastructure.Persistence.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductVariant> ProductVariants { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -138,6 +145,66 @@ namespace Mille.Infrastructure.Persistence.Data
                 entity.HasIndex(e => new { e.CartId, e.ProductVariantId }).IsUnique();
             });
 
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ReceiverName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.ReceiverPhone).IsRequired().HasMaxLength(20);
+                entity.Property(e => e.ShippingAddress).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.TotalAmount).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.DiscountAmount).HasColumnType("decimal(18,2)").HasDefaultValue(0);
+                entity.Property(e => e.Status).HasConversion<string>();
+
+                entity.HasOne(o => o.User)
+                      .WithMany()
+                      .HasForeignKey(o => o.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(o => o.Items)
+                      .WithOne(i => i.Order)
+                      .HasForeignKey(i => i.OrderId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(o => o.StatusHistories)
+                      .WithOne(h => h.Order)
+                      .HasForeignKey(h => h.OrderId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(o => o.Payment)
+                      .WithOne(p => p.Order)
+                      .HasForeignKey<Payment>(p => p.OrderId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ProductName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.SKU).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)");
+
+                entity.HasOne(i => i.ProductVariant)
+                      .WithMany()
+                      .HasForeignKey(i => i.ProductVariantId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<OrderStatusHistory>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Status).HasConversion<string>();
+                entity.Property(e => e.Note).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Amount).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.Method).HasConversion<string>();
+                entity.Property(e => e.Status).HasConversion<string>();
+                entity.Property(e => e.TransactionId).HasMaxLength(255);
+                entity.Property(e => e.GatewayResponse).HasColumnType("nvarchar(max)");
+            });
 
             SeedData(modelBuilder);
         }
