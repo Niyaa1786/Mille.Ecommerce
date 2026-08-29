@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Mille.Application.Features.Orders.CancelOrderUseCase
+namespace Mille.Application.Features.Orders.CancelOrder
 {
     public class CancelOrderRequest
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mille.Application.Features.Orders.CancelOrderUseCase
+namespace Mille.Application.Features.Orders.CancelOrder
 {
     public class CancelOrderResponse
     {
