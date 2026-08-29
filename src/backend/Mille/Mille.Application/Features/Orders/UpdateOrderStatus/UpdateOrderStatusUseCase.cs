@@ -37,7 +37,18 @@ namespace Mille.Application.Features.Orders.UpdateOrderStatus
                     throw new AppValidationException(nameof(request.NewStatus), "Invalid status transition.");
             }
 
-            if(request.NewStatus == OrderStatus.Completed)
+            if (request.NewStatus == OrderStatus.Cancelled)
+            {
+                foreach (var item in order.Items)
+                {
+                    var variant = await unitOfWork.ProductVariants.GetByIdAsync(item.ProductVariantId, ct);
+                    if (variant != null)
+                        variant.Restock(item.Quantity);
+                }
+            }
+
+
+            if (request.NewStatus == OrderStatus.Completed)
             {
                 var payment = await unitOfWork.Payments.GetByOrderIdAsync(order.Id, ct);
                 if (payment != null && payment.Method == PaymentMethod.COD && payment.Status == PaymentStatus.Pending)
