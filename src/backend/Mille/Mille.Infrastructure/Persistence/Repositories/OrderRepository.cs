@@ -28,21 +28,21 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 .Include(o => o.Payment)
                 .FirstOrDefaultAsync(o => o.Id == id, ct);
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(Guid userId, int page, int pageSize, CancellationToken ct)
-            => await _context.Orders
-                .AsNoTracking()
-                .Where(o => o.UserId == userId)
-                .OrderByDescending(o => o.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(ct);
-
-        public async Task<IEnumerable<Order>> GetOrdersAsync(int page, int pageSize, OrderStatus? status, CancellationToken ct)
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(Guid userId, OrderStatus? status, string? keyword, int page, int pageSize, CancellationToken ct)
         {
-            var query = _context.Orders.AsNoTracking().AsQueryable();
+            var query = _context.Orders
+                .AsNoTracking()
+                .Include(o => o.Payment)
+                .Where(o => o.UserId == userId);
 
             if (status.HasValue)
-                query = query.Where(o => o.Status == status);
+                query = query.Where(o => o.Status == status.Value);
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(o =>
+                    o.ReceiverName.Contains(keyword) ||
+                    o.ReceiverPhone.Contains(keyword) ||
+                    o.ShippingAddress.Contains(keyword));
 
             return await query
                 .OrderByDescending(o => o.CreatedAt)
@@ -51,18 +51,59 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 .ToListAsync(ct);
         }
 
-        public async Task<int> CountOrdersByUserIdAsync(Guid userId, CancellationToken ct)
-            => await _context.Orders.CountAsync(o => o.UserId == userId, ct);
+        public async Task<IEnumerable<Order>> GetOrdersAsync(OrderStatus? status, string? keyword, int page, int pageSize, CancellationToken ct)
+        {
+            var query = _context.Orders
+                .AsNoTracking()
+                .AsQueryable();
 
-        public async Task<int> CountOrdersAsync(OrderStatus? status, CancellationToken ct)
+            if (status.HasValue)
+                query = query.Where(o => o.Status == status);
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(o =>
+                    o.ReceiverName.Contains(keyword) ||
+                    o.ReceiverPhone.Contains(keyword) ||
+                    o.ShippingAddress.Contains(keyword));
+
+            return await query
+                .OrderByDescending(o => o.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+        }
+
+        public async Task<int> CountOrdersByUserIdAsync(Guid userId, OrderStatus? status, string? keyword, CancellationToken ct)
+        {
+            var query = _context.Orders.Where(o => o.UserId == userId).AsQueryable();
+
+            if (status.HasValue)
+                query = query.Where(o => o.Status == status.Value);
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(o =>
+                    o.ReceiverName.Contains(keyword) ||
+                    o.ReceiverPhone.Contains(keyword) ||
+                    o.ShippingAddress.Contains(keyword));
+
+            return await query.CountAsync(ct);
+        }
+
+
+        public async Task<int> CountOrdersAsync(OrderStatus? status, string? keyword, CancellationToken ct)
         {
             var query = _context.Orders.AsQueryable();
 
             if (status.HasValue)
-                query.Where(o => o.Status == status);
+                query = query.Where(o => o.Status == status.Value);
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(o =>
+                    o.ReceiverName.Contains(keyword) ||
+                    o.ReceiverPhone.Contains(keyword) ||
+                    o.ShippingAddress.Contains(keyword));
 
             return await query.CountAsync(ct);
-
         }
 
         public void Add(Order entity) => _context.Orders.Add(entity);
