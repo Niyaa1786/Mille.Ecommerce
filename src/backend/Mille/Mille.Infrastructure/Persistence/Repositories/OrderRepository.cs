@@ -54,6 +54,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<Order>> GetOrdersAsync(OrderStatus? status, string? keyword, int page, int pageSize, CancellationToken ct)
         {
             var query = _context.Orders
+                .Include(o => o.Payment)
                 .AsNoTracking()
                 .AsQueryable();
 
