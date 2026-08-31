@@ -34,39 +34,39 @@ Trạng thái: ✅ Done · 🚧 In Progress · ⬜ To Do
 
 | Chức năng | Mô tả | Trạng thái |
 |---|---|---|
-| CRUD Category (Admin) | Quản lý danh mục sản phẩm | ⬜ |
-| CRUD Product (Admin) | Quản lý sản phẩm | ⬜ |
-| CRUD Product Variant (Admin) | Quản lý biến thể (size, màu, giá, tồn kho) | ⬜ |
-| Upload Product Image (Admin) | Thêm/xóa ảnh sản phẩm, đặt ảnh đại diện | ⬜ |
-| Get Product List | Danh sách sản phẩm (filter theo danh mục, phân trang) | ⬜ |
-| Get Product Detail | Chi tiết sản phẩm kèm variant, ảnh, đánh giá | ⬜ |
+| CRUD Category (Admin) | Quản lý danh mục sản phẩm | ✅ |
+| CRUD Product (Admin) | Quản lý sản phẩm | ✅ |
+| CRUD Product Variant (Admin) | Quản lý biến thể (size, màu, giá, tồn kho) | ✅ |
+| Upload Product Image (Admin) | Thêm/xóa ảnh sản phẩm, đặt ảnh đại diện | ✅ |
+| Get Product List | Danh sách sản phẩm (filter theo danh mục, phân trang) | ✅ |
+| Get Product Detail | Chi tiết sản phẩm kèm variant, ảnh, đánh giá | ✅ |
 
 ### 3. Cart
 
 | Chức năng | Mô tả | Trạng thái |
 |---|---|---|
-| Get Cart | Xem giỏ hàng hiện tại | ⬜ |
-| Add to Cart | Thêm sản phẩm vào giỏ | ⬜ |
-| Update Cart Item | Cập nhật số lượng | ⬜ |
-| Remove Cart Item | Xóa sản phẩm khỏi giỏ | ⬜ |
+| Get Cart | Xem giỏ hàng hiện tại | ✅ |
+| Add to Cart | Thêm sản phẩm vào giỏ | ✅ |
+| Update Cart Item | Cập nhật số lượng | ✅ |
+| Remove Cart Item | Xóa sản phẩm khỏi giỏ | ✅ |
 
 ### 4. Order
 
 | Chức năng | Mô tả | Trạng thái |
 |---|---|---|
-| Checkout / Create Order | Tạo đơn hàng từ giỏ hàng | ⬜ |
-| Get Order List | Danh sách đơn hàng của user | ⬜ |
-| Get Order Detail | Chi tiết đơn hàng | ⬜ |
-| Cancel Order | Hủy đơn (khi còn ở trạng thái Pending) | ⬜ |
-| Update Order Status (Admin) | Chuyển trạng thái đơn hàng, lưu lịch sử | ⬜ |
+| Checkout / Create Order | Tạo đơn hàng từ giỏ hàng | ✅ |
+| Get Order List | Danh sách đơn hàng của user | ✅ |
+| Get Order Detail | Chi tiết đơn hàng | ✅ |
+| Cancel Order | Hủy đơn (khi còn ở trạng thái Pending) | ✅ |
+| Update Order Status (Admin) | Chuyển trạng thái đơn hàng, lưu lịch sử | ✅ |
 
 ### 5. Payment (COD)
 
 | Chức năng | Mô tả | Trạng thái |
 |---|---|---|
-| Create Payment Record | Tạo bản ghi thanh toán COD khi tạo đơn | ⬜ |
-| Confirm Payment (Admin) | Xác nhận đã thu tiền khi giao hàng thành công | ⬜ |
-| Get Payment Status | Xem trạng thái thanh toán của đơn hàng | ⬜ |
+| Create Payment Record | Tạo bản ghi thanh toán COD khi tạo đơn | ✅ |
+| Confirm Payment (Admin) | Xác nhận đã thu tiền khi giao hàng thành công | ✅ |
+| Get Payment Status | Xem trạng thái thanh toán của đơn hàng | ✅ |
 
 ### 6. Review
 
@@ -94,11 +94,11 @@ Trạng thái: ✅ Done · 🚧 In Progress · ⬜ To Do
 ## Roadmap phát triển
 
 ```
-1. Auth + User/Address
-2. Category + Product + Variant + Image
-3. Cart
-4. Order
-5. Payment (COD)
+1. Auth + User/Address              ✅ Done
+2. Category + Product + Variant + Image  ✅ Done
+3. Cart                             ✅ Done
+4. Order                            ✅ Done
+5. Payment (COD)                    ✅ Done
 6. Review
 7. Coupon
 8. Payment nâng cao (VNPay/Stripe)
