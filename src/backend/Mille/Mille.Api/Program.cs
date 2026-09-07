@@ -28,6 +28,16 @@ try
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+    builder.Services.AddCors(option =>
+    {
+        option.AddPolicy("Mille-FE", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+    });
+
     builder.Services.AddSerilog();
 
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -72,6 +82,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.UseCors("Mille-FE");
 
     app.UseAuthentication();
 
