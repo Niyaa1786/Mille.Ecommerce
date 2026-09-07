@@ -401,3 +401,4 @@ FodyWeavers.xsd
 *.sln.iml
 src/backend/Mille/Mille.Api/appsettings.json
 src/backend/Mille/repomix-output.md
+src/frontend/mille-ecommerce/components.d.ts
