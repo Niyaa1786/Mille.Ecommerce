@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { useLogin } from '../composables/useLogin';
-const { form, isLoading, errorMessage, errors, handleLogin } = useLogin();
+import { useLogin } from '../composables/useLogin'
+const { form, isLoading, errorMessage, errors, handleLogin } = useLogin()
 </script>
 
 <style scoped></style>

@@ -18,6 +18,7 @@ app.use(PrimeVue, {
       },
     },
   },
+  license: import.meta.env.VITE_LICENSE_KEY,
 })
 
 app.use(createPinia())
