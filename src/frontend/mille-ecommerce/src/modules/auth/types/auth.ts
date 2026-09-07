@@ -11,7 +11,7 @@ export const registerSchema = z.object({
   phone: z
     .string()
     .optional()
-    .refine((val) => val == undefined || val.length < 10, 'Phone number invalid '),
+    .refine((val) => val == undefined || val.length <= 10, 'Phone number invalid '),
 })
 
 export const loginSchema = z.object({
