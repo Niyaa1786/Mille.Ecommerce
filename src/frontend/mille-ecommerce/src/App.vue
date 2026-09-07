@@ -1,5 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue';
+import AuthLayout from './shared/layouts/AuthLayout.vue';
+import { useRoute } from 'vue-router';
 
-<template></template>
+const route = useRoute();
+
+const layouts = {
+  auth: AuthLayout,
+};
+
+const layout = computed(() => layouts[route.meta.layout]);
+console.log(layout);
+</script>
+
+<template>
+  <UApp>
+    <RouterView v-if="!route.meta.layout"></RouterView>
+    <component :is="layout">
+      <RouterView />
+    </component>
+  </UApp>
+</template>
 
 <style scoped></style>
