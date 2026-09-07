@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="flex items-center justify-center h-screen">
+  <div class="flex items-center justify-center h-screen">
     <slot></slot>
-  </UContainer>
+  </div>
 </template>
