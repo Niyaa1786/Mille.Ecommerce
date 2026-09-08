@@ -37,7 +37,8 @@ namespace Mille.Application.Features.Categories.UpdateCategory
             return new UpdateCategoryResponse
             {
                 Id = request.Id,
-                Name = request.Name,
+                Name = category.Name,
+                Description = category.Description
             };
         }
     }
