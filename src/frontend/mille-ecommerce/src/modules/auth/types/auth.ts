@@ -47,7 +47,7 @@ export type LoginResponse = {
     id: string
     email: string
     fullName: string
-    Role: UserRole
+    role: UserRole
   }
 }
 
