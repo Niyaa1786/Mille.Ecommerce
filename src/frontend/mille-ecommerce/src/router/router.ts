@@ -1,9 +1,9 @@
-import 'vue-router';
-export {};
+import 'vue-router'
+export {}
 
 declare module 'vue-router' {
   interface RouteMeta {
-    requiresAuth?: boolean;
-    layout: 'auth';
+    requiresAuth?: boolean
+    layout: 'auth' | 'admin'
   }
 }
