@@ -35,6 +35,7 @@ namespace Mille.Application.Features.Categories.CreateCategory
             {
                 Id = category.Id,
                 Name = category.Name,
+                Description = category.Description!
             };
         }
     }
