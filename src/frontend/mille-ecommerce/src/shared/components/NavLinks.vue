@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from '@/components/ui/sidebar'
+import SidebarGroupLabel from '@/components/ui/sidebar/SidebarGroupLabel.vue'
+import { RouterLink } from 'vue-router'
+
 export interface NavItem {
   label: string
   to: string
@@ -13,11 +23,12 @@ defineProps<{
 
 <template>
   <SidebarGroup>
+    <SidebarGroupLabel>{{ title }}</SidebarGroupLabel>
     <SidebarGroupContent>
       <SidebarMenu>
         <SidebarMenuItem v-for="item in items">
-          <SidebarMenuButton>
-            <RouterLink :to="item.to" class="font-medium">{{ item.label }}</RouterLink>
+          <SidebarMenuButton as-child>
+            <RouterLink :to="item.to"></RouterLink>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

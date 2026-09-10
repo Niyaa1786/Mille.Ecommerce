@@ -22,7 +22,7 @@ export function useDeleteCategory() {
           error.response?.data.message ?? `Failed to delete category with ID: ${id}.`
         const errorList = error.response?.data.errors
         if (errorList && typeof errorList === 'object') {
-          errors.value = Object.values(errorList)
+          errors.value = Object.values(errorList).flat()
         }
       }
       return false

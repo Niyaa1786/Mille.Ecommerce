@@ -22,7 +22,7 @@ export function useCreateCategory() {
         errorMessage.value = error.response?.data.message ?? `Failed to create category.`
         const errorList = error.response?.data.errors
         if (errorList && typeof errorList === 'object') {
-          errors.value = Object.values(errorList)
+          errors.value = Object.values(errorList).flat()
         }
       }
       return false

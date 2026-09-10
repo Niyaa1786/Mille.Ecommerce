@@ -1,124 +1,144 @@
-<template>
-  <div class="rounded-xl p-6 shadow-sm transition-all hover:shadow-md max-w-340">
-    <div class="w-full max-w-md space-y-6">
-      <div class="text-center">
-        <h1 class="text-2xl font-bold">Mille</h1>
-        <h2 class="mt-2 text-3xl font-bold">Welcome back</h2>
-        <p class="mt-2 text-sm text-gray-500">Enter your credentials to access your account</p>
-      </div>
-
-      <Form
-        v-slot="$formState"
-        :initial-values="form"
-        :resolver="zodResolver(registerSchema)"
-        :validate-on-submit="true"
-        @submit="onSubmit"
-        class="flex flex-col gap-4"
-      >
-        <div class="flex flex-col gap-1">
-          <InputText
-            v-model="form.fullName"
-            name="fullName"
-            type="text"
-            placeholder="John Doe"
-            fluid
-          />
-          <Message
-            v-if="$formState.fullName?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $formState.fullName.error?.message }}</Message
-          >
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <InputText
-            v-model="form.email"
-            name="email"
-            type="text"
-            placeholder="john@gmail.com"
-            fluid
-          />
-          <Message
-            v-if="$formState.email?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $formState.email.error?.message }}</Message
-          >
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <InputPassword
-            v-model="form.password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            fluid
-          />
-          <Message
-            v-if="$formState.password?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $formState.password.error?.message }}</Message
-          >
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <InputText
-            v-model="form.phone"
-            name="phone"
-            type="text"
-            placeholder="+84 901 234 567 (Optional)"
-            fluid
-          />
-          <Message
-            v-if="$formState.phone?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-            >{{ $formState.phone.error?.message }}</Message
-          >
-        </div>
-
-        <Button type="submit" variant="secondary" size="large" :disabled="isLoading"
-          >Sign up</Button
-        >
-      </Form>
-
-      <div v-if="errors.length">
-        <Message v-for="(error, index) in errors" :key="index" severity="error" variant="simple">
-          {{ error }}
-        </Message>
-      </div>
-
-      <p class="text-center text-sm">
-        Already have an account?
-        <RouterLink :to="{ name: 'Login' }" class="font-medium text-blue-600 hover:underline">
-          Sign in
-        </RouterLink>
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { useForm } from '@tanstack/vue-form'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import { useRegister } from '../composables/useRegister'
-import { registerSchema } from '../types/auth'
-import type { FormSubmitEvent } from '@primevue/forms'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { registerSchema, type RegisterRequest } from '../types/auth'
 
-const { form, isLoading, errorMessage, errors, handleRegister } = useRegister()
+const { isLoading, errorMessage, errors, handleRegister } = useRegister()
 
-async function onSubmit(event: FormSubmitEvent) {
-  if (event.valid) {
-    await handleRegister()
-  }
-}
+const form = useForm({
+  defaultValues: {
+    fullName: '',
+    email: '',
+    password: '',
+    phone: '',
+  } as RegisterRequest,
+  validators: {
+    onSubmit: registerSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const { ...data } = value
+    await handleRegister(data)
+  },
+})
 </script>
 
-<style scoped></style>
+<template>
+  <Card class="w-full max-w-xl">
+    <CardHeader>
+      <CardTitle class="text-center text-xl font-bold">Register</CardTitle>
+      <CardDescription class="text-center text-md">Create new account!</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
+        <form.Field name="fullName">
+          <template #default="{ field, state }">
+            <div class="space-y-1">
+              <Label :for="field.name">Full Name</Label>
+              <Input
+                :id="field.name"
+                :name="field.name"
+                :model-value="field.state.value"
+                @update:model-value="(v) => field.handleChange(String(v))"
+                @blur="field.handleBlur"
+                placeholder="John Doe"
+              />
+              <p v-if="state.meta.errors.length" class="text-sm text-destructive">
+                {{
+                  typeof state.meta.errors[0] === 'object'
+                    ? state.meta.errors[0]?.message
+                    : state.meta.errors[0]
+                }}
+              </p>
+            </div>
+          </template>
+        </form.Field>
+
+        <form.Field name="email">
+          <template #default="{ field, state }">
+            <div class="space-y-1">
+              <Label :for="field.name">Email</Label>
+              <Input
+                :id="field.name"
+                :name="field.name"
+                :model-value="field.state.value"
+                @update:model-value="(v) => field.handleChange(String(v))"
+                @blur="field.handleBlur"
+                type="text"
+                placeholder="john@gmail.com"
+              />
+              <p v-if="state.meta.errors.length" class="text-sm text-destructive">
+                {{
+                  typeof state.meta.errors[0] === 'object'
+                    ? state.meta.errors[0]?.message
+                    : state.meta.errors[0]
+                }}
+              </p>
+            </div>
+          </template>
+        </form.Field>
+
+        <form.Field name="phone">
+          <template #default="{ field }">
+            <div class="space-y-1">
+              <Label :for="field.name">Phone (optional)</Label>
+              <Input
+                :id="field.name"
+                :name="field.name"
+                :model-value="field.state.value"
+                @update:model-value="(v) => field.handleChange(String(v))"
+                @blur="field.handleBlur"
+                type="tel"
+                placeholder="0987654321"
+              />
+            </div>
+          </template>
+        </form.Field>
+
+        <form.Field name="password">
+          <template #default="{ field, state }">
+            <div class="space-y-1">
+              <Label :for="field.name">Password</Label>
+              <Input
+                :id="field.name"
+                :name="field.name"
+                :model-value="field.state.value"
+                @update:model-value="(v) => field.handleChange(String(v))"
+                @blur="field.handleBlur"
+                type="password"
+                placeholder="password"
+              />
+              <p v-if="state.meta.errors.length" class="text-sm text-destructive">
+                {{
+                  typeof state.meta.errors[0] === 'object'
+                    ? state.meta.errors[0]?.message
+                    : state.meta.errors[0]
+                }}
+              </p>
+            </div>
+          </template>
+        </form.Field>
+
+        <form.Subscribe>
+          <template #default="{ canSubmit }">
+            <Button type="submit" class="w-full" :disabled="!canSubmit || isLoading">
+              {{ isLoading ? 'Registating...' : 'Register' }}
+            </Button>
+          </template>
+        </form.Subscribe>
+
+        <ul v-if="errors.length" class="text-sm text-destructive list-disc pl-4">
+          <li v-for="(err, idx) in errors" :key="idx">{{ err }}</li>
+        </ul>
+
+        <p class="text-center text-sm text-muted-foreground">
+          Already have account login?
+          <RouterLink to="/login" class="underline underline-offset-4">Sign in</RouterLink>
+        </p>
+      </form>
+    </CardContent>
+  </Card>
+</template>

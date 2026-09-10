@@ -9,18 +9,13 @@ export function useChangePassword() {
   const errorMessage = ref<string | null>(null)
   const errors = ref<string[]>([])
 
-  const form = reactive<ChangePassworRequest>({
-    oldPassword: '',
-    newPassword: '',
-  })
-
-  async function handleChangePassword() {
+  async function handleChangePassword(data: ChangePassworRequest) {
     isLoading.value = true
     errorMessage.value = null
     errors.value = []
 
     try {
-      await authService.changePassword(form)
+      await authService.changePassword(data)
     } catch (error) {
       if (axios.isAxiosError<ApiResponse<null>>(error)) {
         errorMessage.value = error.response?.data.message ?? 'Login Failed.'

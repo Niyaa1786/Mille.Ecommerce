@@ -1,9 +1,9 @@
 import type { UserRole } from '@/shared/constants/user'
-import z, { email } from 'zod'
+import z from 'zod'
 
 export const registerSchema = z.object({
   fullName: z.string().nonempty('Fullname is required'),
-  email: z.email('Invalid email format'),
+  email: z.string().email('Invalid email format'),
   password: z
     .string()
     .nonempty('Password is required')
@@ -15,7 +15,7 @@ export const registerSchema = z.object({
 })
 
 export const loginSchema = z.object({
-  email: z.email('Invalid email format').nonempty('Email is required'),
+  email: z.string().email('Invalid email format').nonempty('Email is required'),
   password: z.string().nonempty('Password is required'),
 })
 

@@ -1,19 +1,14 @@
 import { useAuthStore } from '@/modules/auth/stores/authStore'
 import LoginView from '@/modules/auth/views/LoginView.vue'
 import RegisterView from '@/modules/auth/views/RegisterView.vue'
-import CategoryList from '@/modules/categories/views/CategoryList.vue'
-import TestHomeView from '@/shared/components/Test-HomeView.vue'
+// import CategoryList from '@/modules/categories/views/CategoryList.vue'
+// import TestHomeView from '@/shared/components/Test-HomeView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     //Auth Routes
-    {
-      path: '/',
-      name: 'HomeView',
-      component: TestHomeView,
-    },
     {
       path: '/login',
       name: 'Login',
@@ -30,17 +25,16 @@ const router = createRouter({
         layout: 'auth',
       },
     },
-
-    //Admin Routes
-    {
-      path: '/category',
-      name: 'CategoryList',
-      component: CategoryList,
-      meta: {
-        layout: 'admin',
-        requiresAuth: true,
-      },
-    },
+    // //Admin Routes
+    // {
+    //   path: '/category',
+    //   name: 'CategoryList',
+    //   component: CategoryList,
+    //   meta: {
+    //     layout: 'admin',
+    //     requiresAuth: true,
+    //   },
+    // },
   ],
 })
 

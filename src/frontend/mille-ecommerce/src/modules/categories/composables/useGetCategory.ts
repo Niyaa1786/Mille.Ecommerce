@@ -25,7 +25,7 @@ export function useGetCategory() {
           `Failed to load category with ID: ${id}, please try again.`
         const errorList = error.response?.data.errors
         if (errorList && typeof errorList === 'object') {
-          errors.value = Object.values(errorList)
+          errors.value = Object.values(errorList).flat()
         }
       }
     } finally {

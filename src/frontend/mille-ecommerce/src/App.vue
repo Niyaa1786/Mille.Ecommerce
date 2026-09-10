@@ -17,7 +17,7 @@ console.log(layout)
 
 <template>
   <RouterView v-if="!route.meta.layout"></RouterView>
-  <component :is="layout">
+  <component v-else :is="layout">
     <RouterView />
   </component>
 </template>

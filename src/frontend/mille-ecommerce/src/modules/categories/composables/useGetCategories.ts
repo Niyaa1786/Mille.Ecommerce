@@ -39,7 +39,7 @@ export function useGetCategories() {
         errorMessage.value = error.response?.data.message ?? 'Failed to load category list'
         const errorList = error.response?.data.errors
         if (errorList && typeof errorList === 'object') {
-          errors.value = Object.values(errorList)
+          errors.value = Object.values(errorList).flat()
         }
       }
     } finally {
