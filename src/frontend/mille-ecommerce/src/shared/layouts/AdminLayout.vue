@@ -12,7 +12,11 @@
       </SidebarContent>
 
       <SidebarFooter class="border-t border-sidebar-border">
-        <Button variant="destructive" class="w-full" @click="handleLogout">
+        <Button
+          variant="outline"
+          class="w-full hover:text-destructive hover:border-destructive"
+          @click="handleLogout"
+        >
           <LogOut class="mr-2 h-4 w-4" />
           Logout
         </Button>
@@ -26,10 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { LogOut } from 'lucide-vue-next'
 import { useLogout } from '@/modules/auth/composables/useLogout'
-import NavLinks, { type NavItem } from '@/shared/components/NavLinks.vue'
 import { Button } from '@/components/ui/button'
 import {
   Sidebar,
@@ -39,13 +41,14 @@ import {
   SidebarInset,
   SidebarProvider,
 } from '@/components/ui/sidebar'
+import NavLinks, { type NavItems } from '../components/NavLinks.vue'
 
 const { handleLogout } = useLogout()
 
-const navItems: NavItem[] = [
+const navItems: NavItems[] = [
   { label: 'Home', to: '/' },
-  // { label: 'Category', to: '/category' },
-  // { label: 'Product', to: '/products' },
-  // { label: 'Order', to: '/orders' },
+  { label: 'Category', to: '/category' },
+  { label: 'Product', to: '/products' },
+  { label: 'Orders', to: '/orders' },
 ]
 </script>

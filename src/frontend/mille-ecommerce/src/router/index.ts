@@ -1,14 +1,20 @@
 import { useAuthStore } from '@/modules/auth/stores/authStore'
 import LoginView from '@/modules/auth/views/LoginView.vue'
 import RegisterView from '@/modules/auth/views/RegisterView.vue'
+import Home from '@/shared/components/Home.vue'
 // import CategoryList from '@/modules/categories/views/CategoryList.vue'
-// import TestHomeView from '@/shared/components/Test-HomeView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     //Auth Routes
+    {
+      path: '/',
+      name: 'HomeView',
+      component: Home,
+      meta: { layout: 'admin' },
+    },
     {
       path: '/login',
       name: 'Login',

@@ -6,32 +6,29 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar'
-import SidebarGroupLabel from '@/components/ui/sidebar/SidebarGroupLabel.vue'
 import { RouterLink } from 'vue-router'
 
-export interface NavItem {
+export interface NavItems {
   label: string
   to: string
-  icon?: string
 }
 
 defineProps<{
   title?: string
-  items: NavItem[]
+  items: NavItems[]
 }>()
 </script>
 
 <template>
-  <SidebarGroup>
-    <SidebarGroupLabel>{{ title }}</SidebarGroupLabel>
-    <SidebarGroupContent>
+  <SidebarGroupContent>
+    <SidebarGroup>
       <SidebarMenu>
-        <SidebarMenuItem v-for="item in items">
-          <SidebarMenuButton as-child>
-            <RouterLink :to="item.to"></RouterLink>
+        <SidebarMenuItem v-for="item in items" :key="item.to">
+          <SidebarMenuButton class="font-semibold text-md" as-child>
+            <RouterLink :to="item.to">{{ item.label }}</RouterLink>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
-    </SidebarGroupContent>
-  </SidebarGroup>
+    </SidebarGroup>
+  </SidebarGroupContent>
 </template>
