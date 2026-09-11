@@ -27,7 +27,7 @@ namespace Mille.Application.Features.Categories.UpdateCategory
             if (category == null || category.IsDeleted)
                 throw new NotFoundException(nameof(Category), request.Id);
 
-            var isExisting = await _unitOfWork.Categories.IsExistByName(request.Name, ct);
+            var isExisting = await _unitOfWork.Categories.IsExistByName(request.Name, category.Name, ct);
             if (isExisting)
                 throw new AppValidationException(nameof(request.Name), "Category name already exists");
 

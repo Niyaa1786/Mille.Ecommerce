@@ -32,8 +32,13 @@ namespace Mille.Infrastructure.Persistence.Repositories
             => await _context.Categories
                 .FirstOrDefaultAsync(c => c.Name == name && !c.IsDeleted, ct);
 
-        public async Task<bool> IsExistByName(string name, CancellationToken ct)
-            => await _context.Categories.AnyAsync(c => c.Name == name, ct);
+        public async Task<bool> IsExistByName(string name, string? excludeName = null, CancellationToken ct = default)
+        {
+            return await _context.Categories
+                .AnyAsync(c => c.Name == name
+                            && !c.IsDeleted
+                            && (excludeName == null || c.Name != excludeName), ct);
+        }
 
         public async Task<int> CountAsync(bool includeDeleted = false, CancellationToken ct = default)
         {

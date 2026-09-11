@@ -23,7 +23,7 @@ namespace Mille.Application.Features.Categories.CreateCategory
         {
             _validator.ValidateAndThrow(request);
 
-            var isExisting = await _unitOfWork.Categories.IsExistByName(request.Name, ct);
+            var isExisting = await _unitOfWork.Categories.IsExistByName(request.Name,null, ct); 
             if (isExisting)
                 throw new AppValidationException(nameof(request.Name), "Category name already exists.");
 
