@@ -22,6 +22,7 @@ namespace Mille.Domain.Entities
         public Category(string name,  string description = null)
         {
             Name = name;
+            Description = description;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
         }

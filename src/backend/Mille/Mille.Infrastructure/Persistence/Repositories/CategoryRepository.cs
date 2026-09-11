@@ -65,7 +65,7 @@ namespace Mille.Infrastructure.Persistence.Repositories
                 query = query.Where(c => !c.IsDeleted);
 
             if (!string.IsNullOrEmpty(keyword))
-                query.Where(
+                query = query.Where(
                     c => c.Name.Contains(keyword) || 
                     (c.Description != null && c.Description.Contains(keyword)));
 
