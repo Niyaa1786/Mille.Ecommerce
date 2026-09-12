@@ -27,7 +27,7 @@ const page = ref(1)
 const pageSize = ref(10)
 const keyword = ref('')
 
-function refreshTable() {
+function loadCategories() {
   fetchCategories({
     page: page.value,
     pageSize: pageSize.value,
@@ -39,11 +39,12 @@ function refreshTable() {
 function goToPage(next: number) {
   if (next < 1 || next > pagination.value.totalPages) return
   page.value = next
-  refreshTable()
+  loadCategories()
 }
 
 function onSearch() {
-  refreshTable()
+  page.value = 1
+  loadCategories()
 }
 
 function formatDate(value: string) {
@@ -66,7 +67,8 @@ function openDelete(category: Category) {
   deletingCategory.value = category
   deleteOpen.value = true
 }
-onMounted(refreshTable)
+
+onMounted(loadCategories)
 </script>
 
 <template>
@@ -77,7 +79,7 @@ onMounted(refreshTable)
         <p class="text-sm text-muted-foreground">Manage your product categories.</p>
       </div>
 
-      <CreateCategoryDialog @success="refreshTable">
+      <CreateCategoryDialog @success="loadCategories">
         <template #trigger>
           <Button>
             <Plus class="mr-2 size-4" />
@@ -186,12 +188,12 @@ onMounted(refreshTable)
     <EditCategoryDialog
       v-model:open="editOpen"
       :category="editingCategory"
-      @success="refreshTable"
+      @success="loadCategories"
     />
     <DeleteCategoryDialog
       v-model:open="deleteOpen"
       :category="deletingCategory"
-      @success="refreshTable"
+      @success="loadCategories"
     />
   </div>
 </template>
