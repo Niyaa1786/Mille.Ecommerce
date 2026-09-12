@@ -1,13 +1,13 @@
 import { ref } from 'vue'
 import { type CategoriesResponse } from '../types/category'
-import type { PaginationMeta, PaginationMetaRequest } from '@/shared/types/pagination'
+import type { PaginationMetaRequest, PaginationMetaResponse } from '@/shared/types/pagination'
 import { categoryService } from '../services/categoryService'
 import axios from 'axios'
 import type { ApiResponse } from '@/shared/types/api'
 
 export function useGetCategories() {
   const categories = ref<CategoriesResponse['items']>([])
-  const pagination = ref<PaginationMeta>({
+  const pagination = ref<PaginationMetaResponse>({
     page: 1,
     pageSize: 10,
     totalCount: 0,

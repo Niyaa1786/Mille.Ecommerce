@@ -1,4 +1,6 @@
-export type PaginationMeta = {
+import type { ProductStatus } from '@/modules/products/types/product'
+
+export type PaginationMetaResponse = {
   page: number
   pageSize: number
   totalCount: number
@@ -10,4 +12,9 @@ export type PaginationMetaRequest = {
   pageSize: number
   includeDeleted: boolean
   keyword?: string
+}
+
+export type ProductPaginationMetaRequest = PaginationMetaRequest & {
+  categoryId?: string
+  Status?: ProductStatus
 }
