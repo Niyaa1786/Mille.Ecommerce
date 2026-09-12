@@ -95,3 +95,5 @@ export type ProductList = {
   thumbnailUrl: string
   createdAt: string
 }
+
+export type Product = ProductResponse
