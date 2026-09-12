@@ -16,5 +16,5 @@ export type PaginationMetaRequest = {
 
 export type ProductPaginationMetaRequest = PaginationMetaRequest & {
   categoryId?: string
-  Status?: ProductStatus
+  status?: ProductStatus
 }
