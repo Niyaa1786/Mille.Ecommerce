@@ -32,7 +32,7 @@ namespace Mille.Application.Features.Orders.CreateOrder
 
             var totalAmount = cart.TotalPrice;
 
-            var order = new Order(request.UserId, request.ReceiverName, request.ReceiverName, request.ShippingAddress, totalAmount);
+            var order = new Order(request.UserId, request.ReceiverName, request.ReceiverPhone, request.ShippingAddress, totalAmount);
 
             foreach (var cartItem in cart.Items)
             {
