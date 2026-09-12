@@ -20,6 +20,7 @@ import DeleteCategoryDialog from '@/modules/categories/components/DeleteCategory
 
 import { useGetCategories } from '@/modules/categories/composables/useGetCategories'
 import type { Category } from '@/modules/categories/types/category'
+import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue'
 
 const { categories, pagination, isLoading, errorMessage, fetchCategories } = useGetCategories()
 
@@ -78,21 +79,24 @@ onMounted(loadCategories)
         <h1 class="text-2xl font-bold">Categories</h1>
         <p class="text-sm text-muted-foreground">Manage your product categories.</p>
       </div>
-
-      <CreateCategoryDialog @success="loadCategories">
-        <template #trigger>
-          <Button>
-            <Plus class="mr-2 size-4" />
-            Create Category
-          </Button>
-        </template>
-      </CreateCategoryDialog>
     </div>
 
     <!-- Search -->
-    <div class="flex items-center gap-2 max-w-sm">
-      <Input v-model="keyword" placeholder="Search by name..." @keyup.enter="onSearch" />
-      <Button variant="outline" @click="onSearch">Search</Button>
+    <div class="flex justify-between">
+      <div class="flex items-center gap-2 max-w-sm">
+        <Input v-model="keyword" placeholder="Search by name..." @keyup.enter="onSearch" />
+        <Button variant="outline" @click="onSearch">Search</Button>
+      </div>
+      <div class="flex items-center gap-2 max-w-sm">
+        <CreateCategoryDialog @success="loadCategories">
+          <DialogTrigger>
+            <Button>
+              <Plus class="mr-2 size-4" />
+              Create Category
+            </Button>
+          </DialogTrigger>
+        </CreateCategoryDialog>
+      </div>
     </div>
 
     <!-- Error -->
