@@ -21,7 +21,7 @@ export function useGetProducts() {
   const errorMessage = ref<string | null>(null)
   const errors = ref<string[]>([])
 
-  async function fetchProduts(params: ProductPaginationMetaRequest) {
+  async function fetchProducts(params: ProductPaginationMetaRequest) {
     isLoading.value = true
     errorMessage.value = null
     errors.value = []
@@ -48,6 +48,6 @@ export function useGetProducts() {
     } finally {
       isLoading.value = false
     }
-    return { products, pagination, isLoading, errorMessage, errors, fetchProduts }
   }
+  return { products, pagination, isLoading, errorMessage, errors, fetchProducts }
 }

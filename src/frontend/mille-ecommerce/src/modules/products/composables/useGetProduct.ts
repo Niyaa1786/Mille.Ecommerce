@@ -4,7 +4,7 @@ import { productService } from '../services/productService'
 import type { ApiResponse } from '@/shared/types/api'
 import axios from 'axios'
 
-export function useGetProducts() {
+export function useGetProduct() {
   const product = ref<ProductResponse | null>(null)
 
   const isLoading = ref<boolean>(false)
