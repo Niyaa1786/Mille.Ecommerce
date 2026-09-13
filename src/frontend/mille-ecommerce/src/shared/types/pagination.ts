@@ -1,3 +1,4 @@
+import type { OrderStatus } from '@/modules/orders/types/order'
 import type { ProductStatus } from '@/modules/products/types/product'
 
 export type PaginationMetaResponse = {
@@ -17,4 +18,11 @@ export type PaginationMetaRequest = {
 export type ProductPaginationMetaRequest = PaginationMetaRequest & {
   categoryId?: string
   status?: ProductStatus
+}
+
+export type OrderPaginationRequest = {
+  page: number
+  pageSize: number
+  status?: OrderStatus
+  keyword?: string
 }
