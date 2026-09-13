@@ -48,7 +48,7 @@ export type VariantResponse = {
 export type ImageResponse = {
   id: string
   publicId: string
-  imgUrl: string
+  imageUrl: string
   isThumbnail: boolean
 }
 
