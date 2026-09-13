@@ -21,6 +21,7 @@ import DeleteCategoryDialog from '@/modules/categories/components/DeleteCategory
 import { useGetCategories } from '@/modules/categories/composables/useGetCategories'
 import type { Category } from '@/modules/categories/types/category'
 import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue'
+import { formatDate } from '@/shared/utils/format'
 
 const { categories, pagination, isLoading, errorMessage, fetchCategories } = useGetCategories()
 
@@ -46,11 +47,6 @@ function goToPage(next: number) {
 function onSearch() {
   page.value = 1
   loadCategories()
-}
-
-function formatDate(value: string) {
-  if (!value) return ''
-  return new Date(value).toLocaleString('vi-VN')
 }
 
 const editOpen = ref(false)
