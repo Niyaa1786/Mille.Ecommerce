@@ -114,7 +114,8 @@ namespace Mille.Infrastructure.Services
             var delResParams = new DelResParams
             {
                 PublicIds = idsList,
-                ResourceType = ResourceType.Image
+                ResourceType = ResourceType.Image,
+                Invalidate = true
             };
             var deletionResult = await _cloudinary.DeleteResourcesAsync(delResParams, ct);
 
