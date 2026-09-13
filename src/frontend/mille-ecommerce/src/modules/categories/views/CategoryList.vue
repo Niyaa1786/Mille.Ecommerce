@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Pencil, Trash2, Plus } from 'lucide-vue-next'
+import { Pencil, Trash2, Plus, SquarePen } from 'lucide-vue-next'
 
 import {
   Table,
@@ -134,11 +134,21 @@ onMounted(loadCategories)
               <TableCell>{{ formatDate(category.updatedAt) }}</TableCell>
               <TableCell class="text-right">
                 <div class="flex justify-end gap-2">
-                  <Button variant="outline" size="icon-sm" @click="openEdit(category)">
-                    <Pencil class="size-3.5" />
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    title="Edit category"
+                    @click="openEdit(category)"
+                  >
+                    <SquarePen class="size-4 text-muted-foreground" />
                   </Button>
-                  <Button variant="destructive" size="icon-sm" @click="openDelete(category)">
-                    <Trash2 class="size-3.5" />
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    title="Delete product"
+                    @click="openDelete(category)"
+                  >
+                    <Trash2 class="size-4 text-destructive" />
                   </Button>
                 </div>
               </TableCell>
