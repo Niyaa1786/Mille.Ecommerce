@@ -36,7 +36,7 @@ const router = createRouter({
     },
     //Admin Routes
     {
-      path: '/categories',
+      path: '/admin/categories',
       name: 'CategoryList',
       component: CategoryList,
       meta: {
@@ -45,7 +45,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/products',
+      path: '/admin/products',
       name: 'ProductList',
       component: ProductList,
       meta: {
@@ -54,7 +54,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/orders',
+      path: '/admin/orders',
       name: 'OrderList',
       component: OrderList,
       meta: {

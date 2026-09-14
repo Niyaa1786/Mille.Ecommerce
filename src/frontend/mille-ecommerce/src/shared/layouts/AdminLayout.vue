@@ -47,8 +47,8 @@ const { handleLogout } = useLogout()
 
 const navItems: NavItems[] = [
   { label: 'Home', to: '/' },
-  { label: 'Category', to: '/categories' },
-  { label: 'Product', to: '/products' },
-  { label: 'Orders', to: '/orders' },
+  { label: 'Category', to: '/admin/categories' },
+  { label: 'Product', to: '/admin/products' },
+  { label: 'Orders', to: '/admin/orders' },
 ]
 </script>
