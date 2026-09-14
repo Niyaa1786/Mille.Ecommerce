@@ -1,6 +1,7 @@
 import { useAuthStore } from '@/modules/auth/stores/authStore'
 import LoginView from '@/modules/auth/views/LoginView.vue'
 import RegisterView from '@/modules/auth/views/RegisterView.vue'
+import { useCartStore } from '@/modules/carts/stores/cartStore'
 import CategoryList from '@/modules/categories/views/CategoryList.vue'
 import OrderList from '@/modules/orders/views/OrderList.vue'
 import ProductList from '@/modules/products/views/ProductList.vue'
@@ -66,7 +67,9 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const authStore = useAuthStore()
+  const cartStore = useCartStore()
   authStore.restoreSession()
+  cartStore.restoreCart()
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: 'Login' }
   }
