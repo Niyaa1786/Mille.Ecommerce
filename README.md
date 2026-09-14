@@ -16,26 +16,28 @@ Mille.Ecommerce is a personal project built to practice designing and implementi
 ## Tech Stack
 
 ### Backend
-| Concern | Technology |
-|---|---|
-| Language / Framework | C#, ASP.NET Core (.NET 10) |
-| ORM | Entity Framework Core 10 (SQL Server) |
-| Architecture | Clean Architecture (Domain / Application / Infrastructure / Api), no MediatR |
-| Authentication | JWT (access token + refresh token), BCrypt password hashing |
-| Validation | FluentValidation |
-| File storage | Cloudinary (product images, avatars) |
-| API docs / testing | Scalar |
-| DI helper | Scrutor |
+
+| Concern              | Technology                                                                   |
+| -------------------- | ---------------------------------------------------------------------------- |
+| Language / Framework | C#, ASP.NET Core (.NET 10)                                                   |
+| ORM                  | Entity Framework Core 10 (SQL Server)                                        |
+| Architecture         | Clean Architecture (Domain / Application / Infrastructure / Api), no MediatR |
+| Authentication       | JWT (access token + refresh token), BCrypt password hashing                  |
+| Validation           | FluentValidation                                                             |
+| File storage         | Cloudinary (product images, avatars)                                         |
+| API docs / testing   | Scalar                                                                       |
+| DI helper            | Scrutor                                                                      |
 
 ### Frontend
-| Concern | Technology |
-|---|---|
-| Framework | Vue 3 + TypeScript (Vite) |
-| State management | Pinia |
-| Routing | Vue Router (with auth guards) |
-| UI | shadcn-vue (reka-ui) + Tailwind CSS |
-| Forms & validation | TanStack Form + Zod |
-| HTTP client | Axios |
+
+| Concern            | Technology                          |
+| ------------------ | ----------------------------------- |
+| Framework          | Vue 3 + TypeScript (Vite)           |
+| State management   | Pinia                               |
+| Routing            | Vue Router (with auth guards)       |
+| UI                 | shadcn-vue (reka-ui) + Tailwind CSS |
+| Forms & validation | TanStack Form + Zod                 |
+| HTTP client        | Axios                               |
 
 ## Architecture
 
@@ -61,48 +63,53 @@ The frontend is organized by feature module (`auth`, `categories`, `products`, `
 Status: ✅ Done · 🚧 In Progress · ⬜ Planned
 
 ### Authentication & User
-| Feature | Status |
-|---|---|
-| Register / Login (JWT access + refresh token) | ✅ |
-| Refresh token / Logout | ✅ |
-| Change password | ✅ |
-| Get / update profile | ✅ |
-| Manage shipping addresses (add / update / delete) | ✅ |
-| Upload avatar (Cloudinary) | ✅ |
+
+| Feature                                           | Status |
+| ------------------------------------------------- | ------ |
+| Register / Login (JWT access + refresh token)     | ✅     |
+| Refresh token / Logout                            | ✅     |
+| Change password                                   | ✅     |
+| Get / update profile                              | ✅     |
+| Manage shipping addresses (add / update / delete) | ✅     |
+| Upload avatar (Cloudinary)                        | ✅     |
 
 ### Catalog
-| Feature | Status |
-|---|---|
-| Category CRUD (with soft delete / restore) | ✅ |
-| Product CRUD | ✅ |
-| Product variants (SKU, size, color, price, stock) | ✅ |
-| Product images (multiple images, thumbnail selection) | ✅ |
+
+| Feature                                               | Status |
+| ----------------------------------------------------- | ------ |
+| Category CRUD (with soft delete / restore)            | ✅     |
+| Product CRUD                                          | ✅     |
+| Product variants (SKU, size, color, price, stock)     | ✅     |
+| Product images (multiple images, thumbnail selection) | ✅     |
 
 ### Cart & Orders
-| Feature | Status |
-|---|---|
-| View / add / update / remove cart items | ✅ |
-| Create order from cart | ✅ |
-| Get order(s) by id / by user | ✅ |
-| Cancel order | ✅ |
-| Update order status with status history (Admin) | ✅ |
+
+| Feature                                         | Status |
+| ----------------------------------------------- | ------ |
+| View / add / update / remove cart items         | ✅     |
+| Create order from cart                          | ✅     |
+| Get order(s) by id / by user                    | ✅     |
+| Cancel order                                    | ✅     |
+| Update order status with status history (Admin) | ✅     |
 
 ### Payment
-| Feature | Status |
-|---|---|
-| Cash on Delivery (COD) flow | ✅ |
-| Confirm payment on delivery (Admin) | ✅ |
-| VNPay integration | ⬜ |
-| Stripe integration | ⬜ |
+
+| Feature                             | Status |
+| ----------------------------------- | ------ |
+| Cash on Delivery (COD) flow         | ✅     |
+| Confirm payment on delivery (Admin) | ✅     |
+| VNPay integration                   | ⬜     |
+| Stripe integration                  | ⬜     |
 
 ### Planned
-| Feature | Status |
-|---|---|
-| Product reviews & ratings | ⬜ |
-| Coupons / discount codes | ⬜ |
-| Customer-facing storefront (cart & checkout UI) | 🚧 |
-| Redis caching | ⬜ |
-| Docker containerization | ⬜ |
+
+| Feature                                         | Status |
+| ----------------------------------------------- | ------ |
+| Product reviews & ratings                       | ⬜     |
+| Coupons / discount codes                        | ⬜     |
+| Customer-facing storefront (cart & checkout UI) | 🚧     |
+| Redis caching                                   | ⬜     |
+| Docker containerization                         | ⬜     |
 
 ## Getting Started
 
@@ -149,5 +156,5 @@ npm run dev
 
 ## Author
 
-**Tran Minh Thanh**
+**Tran Minh Thanh | Niyaa1786**
 [GitHub](https://github.com/Niyaa1786) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-minh-th%C3%A0nh-b56a40385/)
