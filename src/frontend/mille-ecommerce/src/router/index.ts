@@ -16,7 +16,7 @@ const router = createRouter({
       path: '/',
       name: 'HomeView',
       component: Home,
-      meta: { layout: 'admin' },
+      meta: { layout: 'storefront' },
     },
     {
       path: '/login',
