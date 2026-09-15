@@ -5,6 +5,7 @@ import { useCartStore } from '@/modules/carts/stores/cartStore'
 import CategoryList from '@/modules/categories/views/CategoryList.vue'
 import OrderList from '@/modules/orders/views/OrderList.vue'
 import ProductList from '@/modules/products/views/ProductList.vue'
+import ProfileView from '@/modules/users/views/ProfileView.vue'
 import Home from '@/shared/components/Home.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -61,6 +62,13 @@ const router = createRouter({
         layout: 'admin',
         requiresAuth: true,
       },
+    },
+    //Storefront
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: ProfileView,
+      meta: { layout: 'storefront', requiresAuth: true },
     },
   ],
 })

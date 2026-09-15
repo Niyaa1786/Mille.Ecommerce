@@ -4,6 +4,7 @@ import AuthLayout from './shared/layouts/AuthLayout.vue'
 import { useRoute } from 'vue-router'
 import AdminLayout from './shared/layouts/AdminLayout.vue'
 import StorefrontLayout from './shared/layouts/StorefrontLayout.vue'
+import { Toaster } from './components/ui/sonner'
 
 const route = useRoute()
 
@@ -14,7 +15,6 @@ const layouts = {
 }
 
 const layout = computed(() => layouts[route.meta.layout])
-console.log(layout)
 </script>
 
 <template>
@@ -22,6 +22,7 @@ console.log(layout)
   <component v-else :is="layout">
     <RouterView />
   </component>
+  <Toaster position="bottom-right" rich-colors />
 </template>
 
 <style scoped></style>

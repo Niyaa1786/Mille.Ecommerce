@@ -43,7 +43,7 @@
             <Search
               class="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
             />
-            <Input v-model="searchKeyword" placeholder="Tìm sản phẩm..." class="pl-8" />
+            <Input v-model="searchKeyword" placeholder="Searching product..." class="pl-8" />
           </div>
         </div>
 
@@ -72,17 +72,20 @@
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem as-child>
-                <RouterLink to="/orders">Đơn hàng của tôi</RouterLink>
+                <RouterLink to="/profile">Profile</RouterLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <RouterLink to="/orders">My Orders</RouterLink>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem class="text-destructive" @click="handleLogout">
-                Đăng xuất
+                Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           <RouterLink v-else to="/login">
-            <Button variant="outline" size="sm">Đăng nhập</Button>
+            <Button variant="outline" size="sm">Login</Button>
           </RouterLink>
         </div>
       </div>
