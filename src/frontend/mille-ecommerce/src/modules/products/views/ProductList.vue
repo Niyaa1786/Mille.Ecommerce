@@ -1,33 +1,43 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useGetProducts } from '../composables/useGetProducts'
-import { PRODUCT_STATUS_LABELS, type Product, type ProductList } from '../types/product'
+import { PRODUCT_STATUS_LABELS, type ProductStatus, type ProductList } from '../types/product'
 import Button from '@/components/ui/button/Button.vue'
 import Input from '@/components/ui/input/Input.vue'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import Table from '@/components/ui/table/Table.vue'
-import TableCaption from '@/components/ui/table/TableCaption.vue'
 import TableHeader from '@/components/ui/table/TableHeader.vue'
 import TableRow from '@/components/ui/table/TableRow.vue'
 import TableHead from '@/components/ui/table/TableHead.vue'
 import TableBody from '@/components/ui/table/TableBody.vue'
 import TableCell from '@/components/ui/table/TableCell.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue'
-import { Info, Pencil, Trash2 } from 'lucide-vue-next'
+import { Info, Pencil, Trash2, X } from 'lucide-vue-next'
 import { formatCurrency, formatDate } from '@/shared/utils/format'
 import Badge from '@/components/ui/badge/Badge.vue'
 import DetailProductDialog from '../components/DetailProductDialog.vue'
 import DeleteProductDialog from '../components/DeleteProductDialog.vue'
 import CreateProductDialog from '../components/CreateProductDialog.vue'
 import EditProductDialog from '../components/EditProductDialog.vue'
+import { useGetCategories } from '@/modules/categories/composables/useGetCategories'
 
-const { products, pagination, isLoading, errorMessage, errors, fetchProducts } = useGetProducts()
+const { products, pagination, isLoading, errorMessage, fetchProducts } = useGetProducts()
+const { categories, fetchCategories } = useGetCategories()
 
-//Pagination State
+// Filters & pagination
 const page = ref(1)
 const pageSize = ref(10)
-const keyword = ref(undefined)
-const categoryId = ref(undefined)
-const status = ref(undefined)
+const keyword = ref<string | undefined>(undefined)
+const categoryId = ref<number | undefined>(undefined)
+const status = ref<ProductStatus | undefined>(undefined)
+
+const STATUS_OPTIONS: ProductStatus[] = ['Active', 'OutOfStock', 'Contact', 'Discontinued']
 
 async function loadProducts() {
   await fetchProducts({
@@ -51,6 +61,28 @@ async function onSearch() {
   await loadProducts()
 }
 
+async function onStatusChange(value: ProductStatus | 'All') {
+  status.value = value === 'All' ? undefined : value
+  page.value = 1
+  await loadProducts()
+}
+
+async function onCategoryChange(value: unknown) {
+  if (typeof value !== 'string') return
+  categoryId.value = value === 'All' ? undefined : Number(value)
+  page.value = 1
+  await loadProducts()
+}
+
+async function onResetFilters() {
+  keyword.value = undefined
+  categoryId.value = undefined
+  status.value = undefined
+  page.value = 1
+  await loadProducts()
+}
+
+// Dialogs
 const detailOpen = ref(false)
 const productDetailId = ref<string | null>(null)
 function openDetail(product: ProductList) {
@@ -72,11 +104,15 @@ function openDelete(product: ProductList) {
   deleteOpen.value = true
 }
 
-onMounted(loadProducts)
+onMounted(() => {
+  fetchCategories({ page: 1, pageSize: 100, includeDeleted: false })
+  loadProducts()
+})
 </script>
 
 <template>
   <div class="p-6 space-y-6">
+    <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold">Products</h1>
@@ -85,10 +121,52 @@ onMounted(loadProducts)
       <CreateProductDialog @success="loadProducts" />
     </div>
 
-    <!-- Search -->
-    <div class="flex items-center gap-2 max-w-sm">
-      <Input v-model="keyword" placeholder="Search by name..." @keyup.enter="onSearch" />
-      <Button variant="outline" @click="onSearch">Search</Button>
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="flex items-center gap-2 max-w-sm flex-1 min-w-60">
+        <Input v-model="keyword" placeholder="Search by name..." @keyup.enter="onSearch" />
+        <Button variant="outline" @click="onSearch">Search</Button>
+      </div>
+
+      <Select
+        :model-value="categoryId !== undefined ? String(categoryId) : 'All'"
+        @update:model-value="onCategoryChange"
+      >
+        <SelectTrigger class="w-44">
+          <SelectValue placeholder="All categories" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="All">All categories</SelectItem>
+          <SelectItem v-for="cat in categories" :key="cat.id" :value="String(cat.id)">
+            {{ cat.name }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select
+        :model-value="status ?? 'All'"
+        @update:model-value="(v) => onStatusChange(v as ProductStatus | 'All')"
+      >
+        <SelectTrigger class="w-40">
+          <SelectValue placeholder="All statuses" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="All">All statuses</SelectItem>
+          <SelectItem v-for="s in STATUS_OPTIONS" :key="s" :value="s">
+            {{ PRODUCT_STATUS_LABELS[s] }}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Button
+        v-if="keyword || categoryId !== undefined || status !== undefined"
+        variant="ghost"
+        size="sm"
+        @click="onResetFilters"
+      >
+        <X class="mr-1 size-4" />
+        Clear filters
+      </Button>
     </div>
 
     <!-- Error -->
@@ -103,7 +181,7 @@ onMounted(loadProducts)
             <TableHead>Name</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Description </TableHead>
+            <TableHead>Description</TableHead>
             <TableHead>Price</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead class="w-35 text-right">Actions</TableHead>
@@ -114,25 +192,19 @@ onMounted(loadProducts)
           <!-- Loading -->
           <template v-if="isLoading">
             <TableRow v-for="i in 5" :key="`sk-${i}`">
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
-              <TableCell><Skeleton class="h-4 w-full" /></TableCell>
+              <TableCell v-for="j in 8" :key="`sk-${i}-${j}`">
+                <Skeleton class="h-4 w-full" />
+              </TableCell>
             </TableRow>
           </template>
 
-          <!-- Data Rows -->
+          <!-- Data -->
           <template v-else-if="products.length">
             <TableRow
               v-for="product in products"
               :key="product.id"
               class="hover:bg-muted/30 transition-colors"
             >
-              <!-- Optimized Image Cell -->
               <TableCell>
                 <div
                   class="relative size-12 rounded-lg border bg-muted flex items-center justify-center overflow-hidden shrink-0 shadow-xs"
@@ -206,7 +278,7 @@ onMounted(loadProducts)
           <template v-else>
             <TableRow>
               <TableCell colspan="8" class="h-24 text-center text-muted-foreground">
-                No Products found.
+                No products found.
               </TableCell>
             </TableRow>
           </template>
@@ -241,6 +313,7 @@ onMounted(loadProducts)
       </div>
     </div>
 
+    <!-- Dialogs -->
     <DetailProductDialog v-model:open="detailOpen" :product-id="productDetailId" />
     <EditProductDialog
       v-model:open="editOpen"

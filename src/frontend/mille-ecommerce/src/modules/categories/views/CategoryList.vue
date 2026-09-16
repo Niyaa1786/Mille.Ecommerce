@@ -79,7 +79,7 @@ onMounted(loadCategories)
 
     <!-- Search -->
     <div class="flex justify-between">
-      <div class="flex items-center gap-2 max-w-sm">
+      <div class="flex items-center gap-2 max-w-sm flex-1 min-w-60">
         <Input v-model="keyword" placeholder="Search by name..." @keyup.enter="onSearch" />
         <Button variant="outline" @click="onSearch">Search</Button>
       </div>

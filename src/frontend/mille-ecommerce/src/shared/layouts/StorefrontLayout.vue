@@ -77,6 +77,12 @@
               <DropdownMenuItem as-child>
                 <RouterLink to="/orders">My Orders</RouterLink>
               </DropdownMenuItem>
+              <template v-if="authStore.isAdmin">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem as-child>
+                  <RouterLink to="/admin/orders">Admin Page</RouterLink>
+                </DropdownMenuItem>
+              </template>
               <DropdownMenuSeparator />
               <DropdownMenuItem class="text-destructive" @click="handleLogout">
                 Logout
@@ -140,9 +146,9 @@ const isMobileMenuOpen = ref(false)
 const searchKeyword = ref('')
 
 const navItems = [
-  { label: 'Trang chủ', to: '/' },
-  { label: 'Sản phẩm', to: '/products' },
-  { label: 'Danh mục', to: '/categories' },
+  { label: 'Home', to: '/' },
+  { label: 'Products', to: '/products' },
+  { label: 'Categories', to: '/products' },
 ]
 
 const cartCount = computed(() => cartStore.totalItems)

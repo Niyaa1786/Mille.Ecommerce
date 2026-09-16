@@ -291,7 +291,7 @@ function getErrorMessage(errs: any[]): string | undefined {
                     </div>
                   </form.Field>
 
-                  <!-- Color (Đã bổ sung) -->
+                  <!-- Color -->
                   <form.Field :name="`variants[${idx}].color`" v-slot="{ field: f }">
                     <div class="grid gap-1.5 sm:col-span-2">
                       <Label :for="f.name">Color (optional)</Label>

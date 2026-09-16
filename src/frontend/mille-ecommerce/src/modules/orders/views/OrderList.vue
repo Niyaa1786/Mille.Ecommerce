@@ -147,7 +147,7 @@ onMounted(loadOrders)
 
     <!-- Filters -->
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-2 max-w-sm">
+      <div class="flex items-center gap-2 max-w-sm flex-1 min-w-60">
         <Input
           v-model="keyword"
           placeholder="Search receiver / phone / address..."
