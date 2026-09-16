@@ -41,7 +41,7 @@ async function loadProducts() {
 }
 
 async function goToPage(next: number) {
-  if (next < 1 || next >= pagination.value.totalPages) return
+  if (next < 1 || next > pagination.value.totalPages) return
   page.value = next
   await loadProducts()
 }
